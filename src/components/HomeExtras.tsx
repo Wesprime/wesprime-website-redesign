@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { FeatureBuilder } from './FeatureBuilder'
-import { integrationTypes, pillars, stackLayers } from '../data/content'
+import { CompareSlider } from './CompareSlider'
+import { StackExplorer } from './StackExplorer'
+import { integrationTypes, pillars } from '../data/content'
 import { paths } from '../router'
 
 /** Line icon drawn with a blue-to-teal gradient stroke, like iwesabe's pillar icons. */
@@ -42,57 +42,27 @@ export function PillarsSection({ tint = false }: { tint?: boolean }) {
 }
 
 export function TechStackSection() {
-  const [active, setActive] = useState(2)
-  const layer = stackLayers[active]
   return (
     <section className="section dark tech-stack">
       <div className="container stack-xl">
         <div className="section-head split">
           <div className="stack-sm">
             <div className="eyebrow eyebrow-light">TECHNOLOGY</div>
-            <h2>Built on an open, modern stack</h2>
+            <h2>How an Odoo system fits together</h2>
           </div>
-          <p className="lead head-note">Odoo is open source: Python and PostgreSQL underneath, with a framework we extend to fit your processes — no black boxes, no lock-in.</p>
+          <p className="lead head-note">Five layers, from the screen your team uses to the server it runs on. Odoo is open source, so we can shape every one of them — no black boxes, no lock-in.</p>
         </div>
 
-        <div className="stack-explorer">
-          <div className="stack-layers" role="tablist" aria-label="Architecture layers">
-            {stackLayers.map((l, i) => (
-              <button
-                key={l.id}
-                type="button"
-                role="tab"
-                aria-selected={active === i}
-                className={`stack-layer${active === i ? ' is-on' : ''}`}
-                onClick={() => setActive(i)}
-                onMouseEnter={() => setActive(i)}
-              >
-                <span className="layer-num">{String(i + 1).padStart(2, '0')}</span>
-                <span className="layer-name">{l.name}</span>
-                <span className="layer-items">{l.items.slice(0, 3).join(' · ')}</span>
-              </button>
-            ))}
-          </div>
-          <div className="stack-detail" key={layer.id}>
-            <div className="eyebrow eyebrow-light">LAYER {String(active + 1).padStart(2, '0')}</div>
-            <h3>{layer.name}</h3>
-            <p>{layer.summary}</p>
-            <div className="stack-chips">{layer.items.map((i) => <span key={i}>{i}</span>)}</div>
-            <div className="stack-work">
-              <span>What we do here</span>
-              <ul>{layer.work.map((w) => <li key={w}>{w}</li>)}</ul>
-            </div>
-          </div>
-        </div>
+        <StackExplorer />
 
         <div className="tech-build">
           <div className="section-head split">
             <div className="stack-sm">
-              <h3 className="tech-sub">From business need to working feature</h3>
+              <h3 className="tech-sub">Your process, before and after Odoo</h3>
             </div>
-            <p className="lead head-note">When configuration isn't enough, we write clean, upgrade-friendly Odoo modules. Pick an example to watch it come together.</p>
+            <p className="lead head-note">Pick an everyday process and drag the handle to see how it changes when every team works in one connected system.</p>
           </div>
-          <FeatureBuilder />
+          <CompareSlider />
           <div className="tech-connect">
             <span className="field-label">WE CONNECT ODOO WITH</span>
             <div className="int-chips">{integrationTypes.map((t) => <span key={t}>{t}</span>)}</div>

@@ -178,12 +178,26 @@ export const pillars = [
   },
 ]
 
-export type StackLayer = { id: string; name: string; summary: string; items: string[]; work: string[] }
+export type StackLayer = {
+  id: string
+  name: string
+  /** Plain-language name for non-technical readers */
+  plain: string
+  summary: string
+  /** A real-life moment that happens at this layer */
+  example: string
+  icon: string
+  items: string[]
+  work: string[]
+}
 
 /** The layers of a typical Odoo deployment, top (users) to bottom (infrastructure). */
 export const stackLayers: StackLayer[] = [
   {
     id: 'experience',
+    plain: 'What your team sees',
+    example: 'A salesperson opens a quotation on their phone, in Arabic.',
+    icon: '<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 18.5h4"/>',
     name: 'Experience',
     summary: 'Where people meet the system — staff, customers and suppliers.',
     items: ['Web client', 'Mobile', 'Customer portal', 'Point of Sale', 'Website & eCommerce'],
@@ -191,6 +205,9 @@ export const stackLayers: StackLayer[] = [
   },
   {
     id: 'apps',
+    plain: 'The tools they use',
+    example: 'The quotation pulls prices from Sales and checks stock in Inventory.',
+    icon: '<rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/>',
     name: 'Business apps',
     summary: 'Integrated Odoo apps that share one database.',
     items: ['Accounting', 'Sales & CRM', 'Inventory', 'Manufacturing', 'HR & Payroll', 'Project'],
@@ -198,6 +215,9 @@ export const stackLayers: StackLayer[] = [
   },
   {
     id: 'framework',
+    plain: 'The engine we customise',
+    example: 'A custom rule flags orders above SAR 50,000 for approval.',
+    icon: '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/>',
     name: 'Odoo framework',
     summary: 'The open-source foundation we extend with custom modules.',
     items: ['Python ORM', 'OWL (JavaScript)', 'QWeb reports', 'Access rules', 'Scheduled actions'],
@@ -205,6 +225,9 @@ export const stackLayers: StackLayer[] = [
   },
   {
     id: 'data',
+    plain: 'Where information is stored',
+    example: 'The order is saved once — Finance, Stock and Sales all see it.',
+    icon: '<ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/>',
     name: 'Data',
     summary: 'One PostgreSQL database behind every app.',
     items: ['PostgreSQL', 'Data import & mapping', 'Audit trail', 'Backups'],
@@ -212,6 +235,9 @@ export const stackLayers: StackLayer[] = [
   },
   {
     id: 'infra',
+    plain: 'Where it all runs',
+    example: 'Everything runs securely in the cloud or on your own servers.',
+    icon: '<path d="M7 18h10a4 4 0 00.6-7.95A6 6 0 006.2 9.1 4.5 4.5 0 007 18z"/>',
     name: 'Infrastructure',
     summary: 'Hosted where your data needs to live.',
     items: ['Odoo Online', 'Odoo.sh', 'Cloud server', 'On-premise', 'Docker'],
