@@ -1,5 +1,6 @@
-import { useState, type ReactNode } from 'react'
-import { codeSamples, integrationTypes, pillars, stackLayers } from '../data/content'
+import { useState } from 'react'
+import { FeatureBuilder } from './FeatureBuilder'
+import { integrationTypes, pillars, stackLayers } from '../data/content'
 import { paths } from '../router'
 
 /** Line icon drawn with a blue-to-teal gradient stroke, like iwesabe's pillar icons. */
@@ -37,44 +38,6 @@ export function PillarsSection({ tint = false }: { tint?: boolean }) {
         </div>
       </div>
     </section>
-  )
-}
-
-// Minimal highlighter for the code samples: comments, strings, keywords,
-// decorators, numbers and XML tags. Good enough for short, known snippets.
-const TOKEN = /(#[^\n]*|<!--[\s\S]*?-->)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|f"(?:[^"\\]|\\.)*")|(@\w+(?:\.\w+)*)|(<\/?[\w.:-]+|\/?>)|\b(from|import|class|def|for|in|return|if|else|self|True|False|None)\b|\b(\d+)\b/g
-
-function highlight(code: string): ReactNode[] {
-  const out: ReactNode[] = []
-  let last = 0
-  for (const m of code.matchAll(TOKEN)) {
-    if (m.index > last) out.push(code.slice(last, m.index))
-    const cls = m[1] ? 'tk-com' : m[2] ? 'tk-str' : m[3] ? 'tk-dec' : m[4] ? 'tk-tag' : m[5] ? 'tk-kw' : 'tk-num'
-    out.push(<span key={m.index} className={cls}>{m[0]}</span>)
-    last = m.index + m[0].length
-  }
-  out.push(code.slice(last))
-  return out
-}
-
-function CodeWindow() {
-  const [tab, setTab] = useState(0)
-  const sample = codeSamples[tab]
-  return (
-    <div className="code-window">
-      <div className="code-bar">
-        <span className="code-dots" aria-hidden="true"><i /><i /><i /></span>
-        <div className="code-tabs" role="tablist" aria-label="Code examples">
-          {codeSamples.map((s, i) => (
-            <button key={s.id} type="button" role="tab" aria-selected={tab === i} className={tab === i ? 'is-on' : ''} onClick={() => setTab(i)}>
-              {s.label}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div className="code-file">{sample.file}</div>
-      <pre className="code-body" key={sample.id}><code>{highlight(sample.code)}</code></pre>
-    </div>
   )
 }
 
@@ -122,17 +85,19 @@ export function TechStackSection() {
           </div>
         </div>
 
-        <div className="tech-lower">
-          <div className="stack-sm">
-            <h3 className="tech-sub">Real code, built for your business</h3>
-            <p className="lead">When configuration isn't enough, we write clean, upgrade-friendly Odoo modules — custom logic, integrations and bilingual documents.</p>
-            <div className="integrations">
-              <span className="field-label">WE CONNECT ODOO WITH</span>
-              <div className="int-chips">{integrationTypes.map((t) => <span key={t}>{t}</span>)}</div>
+        <div className="tech-build">
+          <div className="section-head split">
+            <div className="stack-sm">
+              <h3 className="tech-sub">From business need to working feature</h3>
             </div>
-            <div><a className="btn btn-accent" href={paths.solutions}>Explore our Odoo solutions →</a></div>
+            <p className="lead head-note">When configuration isn't enough, we write clean, upgrade-friendly Odoo modules. Pick an example to watch it come together.</p>
           </div>
-          <CodeWindow />
+          <FeatureBuilder />
+          <div className="tech-connect">
+            <span className="field-label">WE CONNECT ODOO WITH</span>
+            <div className="int-chips">{integrationTypes.map((t) => <span key={t}>{t}</span>)}</div>
+            <a className="btn btn-accent" href={paths.solutions}>Explore our Odoo solutions →</a>
+          </div>
         </div>
       </div>
     </section>

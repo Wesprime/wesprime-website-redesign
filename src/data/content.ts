@@ -224,60 +224,6 @@ export const integrationTypes = [
   'Shipping carriers', 'Biometric attendance', 'BI & reporting tools', 'Email & WhatsApp',
 ]
 
-/** Short, real Odoo code samples shown on the homepage. */
-export const codeSamples = [
-  {
-    id: 'module',
-    label: 'Custom module',
-    file: 'models/sale_order.py',
-    code: `from odoo import api, fields, models
-
-
-class SaleOrder(models.Model):
-    _inherit = 'sale.order'
-
-    # Orders above the limit need a manager's approval
-    approval_required = fields.Boolean(
-        compute='_compute_approval_required', store=True,
-    )
-
-    @api.depends('amount_total')
-    def _compute_approval_required(self):
-        for order in self:
-            order.approval_required = order.amount_total > 50000`,
-  },
-  {
-    id: 'api',
-    label: 'API integration',
-    file: 'sync_orders.py',
-    code: `import xmlrpc.client
-
-# Read confirmed sales orders from Odoo's external API
-models = xmlrpc.client.ServerProxy(f"{url}/xmlrpc/2/object")
-orders = models.execute_kw(
-    db, uid, api_key, 'sale.order', 'search_read',
-    [[['state', '=', 'sale']]],
-    {'fields': ['name', 'partner_id', 'amount_total'], 'limit': 50},
-)`,
-  },
-  {
-    id: 'report',
-    label: 'Bilingual report',
-    file: 'report/invoice_templates.xml',
-    code: `<template id="report_invoice_bilingual">
-    <t t-call="web.external_layout">
-        <h2>
-            <span>Tax Invoice</span>
-            <span dir="rtl">فاتورة ضريبية</span>
-        </h2>
-        <t t-foreach="o.invoice_line_ids" t-as="line">
-            <span t-field="line.name"/>
-        </t>
-    </t>
-</template>`,
-  },
-]
-
 export const vision = 'To empower every business owner to operate with clarity and confidence — by converting fragmented operations into intelligent, automated, AI-driven environments that scale with precision.'
 export const mission = 'To diagnose real business inefficiencies, simplify operational complexity, and engineer enterprise-grade ERP systems that remove friction, reduce risk, and restore leadership focus.'
 
