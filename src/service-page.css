@@ -179,6 +179,11 @@
 .sp .dark .sp-feature { border: 1px solid rgba(255, 255, 255, .12); }
 .sp .dark .sp-tile, .sp .dark .sp-win, .sp .dark .sp-note { color: var(--ink); }
 .sp .dark .sp-note:not(.is-on) { filter: brightness(.88); }
+/* Package guide and the demos: their white panels keep dark text and the light-background button. */
+.sp .dark :is(.pk-panel, .pk-quiz, .pk-compare, .demo) { color: var(--ink); }
+.sp .dark .pk-panel .btn-accent { border: 1.5px solid var(--navy); color: var(--navy); }
+.sp .dark .pk-panel .btn-accent:hover { background: var(--navy); border-color: var(--navy); color: #ffffff; }
+.sp .dark .pk-note { color: var(--on-dark-2); }
 .sp .sp-ribbon { background: rgba(111, 163, 255, .08); border-block: 1px solid rgba(111, 163, 255, .18); color: #ffffff; backdrop-filter: blur(4px); }
 .sp .sp-ribbon i { color: var(--accent-on-dark); }
 
