@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useT } from '../i18n'
 
 // Simplified 20×14 flags drawn inline — flag emoji don't render on Windows.
 const F = ({ children }: { children: ReactNode }) => (
@@ -22,6 +23,7 @@ type Props = { value: string; onChange: (iso: string, code: string) => void }
 
 /** Flag dropdown for the phone field. */
 export function CountryPicker({ value, onChange }: Props) {
+  const t = useT()
   const [open, setOpen] = useState(false)
   const wrap = useRef<HTMLDivElement>(null)
   const current = countries.find((c) => c.iso === value) ?? countries[0]
@@ -52,19 +54,19 @@ export function CountryPicker({ value, onChange }: Props) {
         className="cp-btn"
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={`Country code: ${current.name} ${current.code}`}
+        aria-label={`${t('Country code')}: ${t(current.name)} ${current.code}`}
         onClick={() => setOpen((o) => !o)}
       >
         {current.flag}
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
       </button>
       {open && (
-        <ul className="cp-list" role="listbox" aria-label="Country">
+        <ul className="cp-list" role="listbox" aria-label={t("Country")}>
           {countries.map((c) => (
             <li key={c.iso} role="option" aria-selected={c.iso === value}>
               <button type="button" onClick={() => { onChange(c.iso, c.code); setOpen(false) }}>
                 {c.flag}
-                <span>{c.name}</span>
+                <span>{t(c.name)}</span>
                 <b>{c.code}</b>
               </button>
             </li>

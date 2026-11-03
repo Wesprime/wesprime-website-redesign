@@ -1,6 +1,7 @@
 import type { PointerEvent } from 'react'
 import { reasons } from '../data/content'
 import { Icon } from './Icon'
+import { useT } from '../i18n'
 
 // One line icon per reason, in the same order as `reasons` in content.ts.
 const icons = [
@@ -27,14 +28,15 @@ function spotlight(e: PointerEvent<HTMLElement>) {
 }
 
 export function WhyCards() {
+  const t = useT()
   return (
     <div className="why-cards">
       {reasons.map(([title, desc], i) => (
         <article key={title} className="why-card" onPointerMove={spotlight}>
           <span className="why-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
           <span className="why-icon"><Icon markup={icons[i] ?? icons[0]} size={32} strokeWidth={1.6} /></span>
-          <h3>{title}</h3>
-          <p>{desc}</p>
+          <h3>{t(title)}</h3>
+          <p>{t(desc)}</p>
         </article>
       ))}
     </div>

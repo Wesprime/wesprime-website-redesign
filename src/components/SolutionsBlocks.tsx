@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { appIcons } from '../data/appIcons'
 import { odooAppCategories } from '../data/content'
 import { migrationSources } from '../data/saudi'
-import { guideHref, paths } from '../router'
+import { paths, serviceHref } from '../router'
 import { Icon } from './Icon'
+import { useT } from '../i18n'
+import { Headline } from './Headline'
 
 const benefits = [
   {
@@ -29,23 +31,24 @@ const benefits = [
 ]
 
 export function WhyOdooSection() {
+  const t = useT()
   return (
     <section className="section">
       <div className="container stack-xl">
         <div className="section-head split">
           <div className="stack-sm">
-            <div className="eyebrow">WHY ODOO</div>
-            <h2>One platform instead of ten disconnected tools</h2>
+            <div className="eyebrow">{t("WHY ODOO")}</div>
+            <Headline text="Ten tools out. One platform in." words={3} />
           </div>
-          <p className="muted head-note">Odoo replaces spreadsheets and separate systems with integrated apps — and we shape it around the way you work.</p>
+          <p className="muted head-note">{t("Odoo replaces spreadsheets and separate systems with integrated apps — and we shape it around the way you work.")}</p>
         </div>
         <div className="wo-grid">
           {benefits.map((b, i) => (
             <article key={b.title} className="wo-card">
               <span className="wo-icon"><Icon markup={b.icon} size={26} strokeWidth={1.7} /></span>
               <span className="wo-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{b.title}</h3>
-              <p>{b.text}</p>
+              <h3>{t(b.title)}</h3>
+              <p>{t(b.text)}</p>
             </article>
           ))}
         </div>
@@ -67,26 +70,27 @@ const categoryIcons: Record<string, string> = {
 }
 
 export function AppLauncherSection() {
+  const t = useT()
   const [cat, setCat] = useState(0)
   const current = odooAppCategories[cat]
   return (
     <section className="section">
       <div className="container stack-xl">
         <div className="section-head center">
-          <div className="eyebrow">THE APPS</div>
-          <h2>Every Odoo app, one database</h2>
-          <p className="muted">Pick a category to see the apps we implement and connect.</p>
+          <div className="eyebrow">{t("THE APPS")}</div>
+          <Headline text="Every app you need, one living database" />
+          <p className="muted">{t("Pick a category to see the apps we implement and connect.")}</p>
         </div>
         <div className="al">
-          <div className="al-tabs" role="tablist" aria-label="App categories">
+          <div className="al-tabs" role="tablist" aria-label={t("App categories")}>
             {odooAppCategories.map((c, i) => (
               <button key={c.name} type="button" role="tab" aria-selected={cat === i} className={cat === i ? 'is-on' : ''} onClick={() => setCat(i)}>
                 <Icon markup={categoryIcons[c.name] ?? categoryIcons.Productivity} size={18} strokeWidth={1.8} />
-                {c.name}
+                {t(c.name)}
               </button>
             ))}
           </div>
-          <div className="al-screen" role="tabpanel" aria-label={current.name}>
+          <div className="al-screen" role="tabpanel" aria-label={t(current.name)}>
             <div className="al-bar" aria-hidden="true">
               <span className="code-dots"><i /><i /><i /></span>
               <span>odoo / {current.name.toLowerCase()}</span>
@@ -95,7 +99,7 @@ export function AppLauncherSection() {
               {current.apps.map((a) => (
                 <div key={a} className="al-app">
                   <span className="al-app-icon"><Icon markup={appIcons[a] ?? categoryIcons[current.name] ?? categoryIcons.Productivity} size={24} strokeWidth={1.7} /></span>
-                  <span>{a}</span>
+                  <span>{t(a)}</span>
                 </div>
               ))}
             </div>
@@ -110,6 +114,7 @@ export function AppLauncherSection() {
 const hubNodes = ['Payment gateways', 'E-commerce', 'Banks & statements', 'Shipping carriers', 'Biometric attendance', 'BI & reporting', 'Email & WhatsApp', 'REST APIs & webhooks']
 
 export function EcosystemSection() {
+  const t = useT()
   const points = hubNodes.map((label, i) => {
     const a = ((-90 + (360 / hubNodes.length) * i) * Math.PI) / 180
     return { label, x: 50 + 40 * Math.cos(a), y: 50 + 38 * Math.sin(a) }
@@ -119,39 +124,39 @@ export function EcosystemSection() {
       <div className="container stack-xl">
         <div className="section-head split">
           <div className="stack-sm">
-            <div className="eyebrow eyebrow-light">CONNECTED ECOSYSTEM</div>
-            <h2>Odoo at the centre of your systems</h2>
+            <div className="eyebrow eyebrow-light">{t("CONNECTED ECOSYSTEM")}</div>
+            <Headline text="Odoo at the heart of everything you run" />
           </div>
-          <p className="lead head-note">We connect Odoo to the platforms you already rely on, so data flows automatically instead of being copied between tools.</p>
+          <p className="lead head-note">{t("We connect Odoo to the platforms you already rely on, so data flows automatically instead of being copied between tools.")}</p>
         </div>
 
-        <div className="eco-hub" aria-label="Systems Odoo connects with">
+        <div className="eco-hub" aria-label={t("Systems Odoo connects with")}>
           <svg className="eco-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             {points.map((p, i) => (
               <line key={p.label} x1="50" y1="50" x2={p.x} y2={p.y} className="eco-line" style={{ animationDelay: `${i * 0.35}s` }} />
             ))}
           </svg>
           <div className="eco-core">
-            <span>Odoo</span>
-            <small>ERP core</small>
+            <span>{t("Odoo")}</span>
+            <small>{t("ERP core")}</small>
           </div>
           {points.map((p) => (
-            <span key={p.label} className="eco-node" style={{ left: `${p.x}%`, top: `${p.y}%` }}>{p.label}</span>
+            <span key={p.label} className="eco-node" style={{ left: `${p.x}%`, top: `${p.y}%` }}>{t(p.label)}</span>
           ))}
         </div>
 
         <div className="eco-migrate">
           <div className="eco-migrate-from">
-            <span className="field-label">MOVING FROM</span>
-            <div className="eco-chips">{migrationSources.map((m) => <span key={m}>{m}</span>)}</div>
+            <span className="field-label">{t("MOVING FROM")}</span>
+            <div className="eco-chips">{migrationSources.map((m) => <span key={m}>{t(m)}</span>)}</div>
           </div>
           <span className="eco-arrow" aria-hidden="true">
             <i /><i /><i />
           </span>
           <div className="eco-migrate-to">
-            <b>Odoo</b>
-            <span>Mapped, validated and reconciled</span>
-            <a href={guideHref('migrating-to-odoo')}>How we migrate →</a>
+            <b>{t("Odoo")}</b>
+            <span>{t("Mapped, validated and reconciled")}</span>
+            <a href={serviceHref('data-migration')}>{t("How we migrate")} <span className="arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
@@ -182,22 +187,23 @@ const deployments = [
 ]
 
 export function DeploySection({ tint = false }: { tint?: boolean }) {
+  const t = useT()
   return (
     <section className={`section${tint ? ' section-tint' : ''}`}>
       <div className="container stack-xl">
         <div className="section-head center">
-          <div className="eyebrow">DEPLOYMENT</div>
-          <h2>Run Odoo where it suits you</h2>
-          <p className="muted">We help you choose the right setup for your data, budget and customizations.</p>
+          <div className="eyebrow">{t("DEPLOYMENT")}</div>
+          <Headline text="Your Odoo, hosted your way" />
+          <p className="muted">{t("We help you choose the right setup for your data, budget and customizations.")}</p>
         </div>
         <div className="dp-grid">
           {deployments.map((d) => (
             <article key={d.name} className={`dp-card${d.featured ? ' is-featured' : ''}`}>
-              <span className="dp-tag">{d.tag}</span>
-              <h3>{d.name}</h3>
-              <p>{d.text}</p>
-              <ul>{d.points.map((p) => <li key={p}>{p}</li>)}</ul>
-              <a className={d.featured ? 'btn btn-accent' : 'btn btn-outline'} href={paths.contact}>Discuss this option</a>
+              <span className="dp-tag">{t(d.tag)}</span>
+              <h3>{t(d.name)}</h3>
+              <p>{t(d.text)}</p>
+              <ul>{d.points.map((p) => <li key={p}>{t(p)}</li>)}</ul>
+              <a className={d.featured ? 'btn btn-accent' : 'btn btn-outline'} href={paths.contact}>{t("Discuss this option")}</a>
             </article>
           ))}
         </div>

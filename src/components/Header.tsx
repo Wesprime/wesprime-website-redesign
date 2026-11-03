@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { contact } from '../data/content'
 import { getService, serviceGroups } from '../data/services'
 import { paths, serviceHref } from '../router'
-import { Logo } from './Icon'
+import { useT } from '../i18n'
+import { Icon, Logo } from './Icon'
 
 // Pages after "Services" in the menu. The desktop bar leaves out the ones
 // marked mobileOnly to stay on one line; the logo is the link home.
@@ -10,15 +11,18 @@ const links = [
   { label: 'Solutions', href: paths.solutions },
   { label: 'Industries', href: paths.industries },
   { label: 'Case Studies', href: paths.cases, mobileOnly: true },
-  { label: 'Resources', href: paths.resources },
+  { label: 'Blog', href: paths.blog },
+  { label: 'Careers', href: paths.careers },
   { label: 'FAQ', href: paths.faq, mobileOnly: true },
   { label: 'Contact', href: paths.contact },
 ]
 
 export function Header({ activeHref }: { activeHref?: string }) {
   const [megaOpen, setMegaOpen] = useState(false)
+  const [group, setGroup] = useState(0)
   const [mobileOpen, setMobileOpen] = useState(false)
   const megaRef = useRef<HTMLDivElement>(null)
+  const t = useT()
 
   // Close menus on navigation, outside click or Escape.
   useEffect(() => {
@@ -47,13 +51,13 @@ export function Header({ activeHref }: { activeHref?: string }) {
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <a href={paths.home} className="brand" aria-label="Wesprime home">
+        <a href={paths.home} className="brand" aria-label={t('Wesprime home')}>
           <Logo />
           <span>wesprime</span>
         </a>
 
-        <nav className="main-nav" aria-label="Main">
-          <a className={`navlink${activeHref === paths.about ? ' is-active' : ''}`} href={paths.about}>About</a>
+        <nav className="main-nav" aria-label={t('Main')}>
+          <a className={`navlink${activeHref === paths.about ? ' is-active' : ''}`} href={paths.about}>{t('About')}</a>
           <div className="mega-wrap" ref={megaRef}>
             <button
               type="button"
@@ -62,38 +66,57 @@ export function Header({ activeHref }: { activeHref?: string }) {
               aria-controls="mega-menu"
               onClick={() => setMegaOpen((o) => !o)}
             >
-              Services {megaOpen ? '▴' : '▾'}
+              {t('Services')} {megaOpen ? '▴' : '▾'}
             </button>
             {megaOpen && (
               <div id="mega-menu" className="mega panel">
-                <div className="mega-cols">
-                  {serviceGroups.map((group) => (
-                    <div key={group.title} className="mega-col">
-                      <div className="mega-heading">{group.title}</div>
-                      {group.slugs.map((slug) => (
-                        <a key={slug} className="mm-item" href={serviceHref(slug)}>
-                          <span className="mm-dot">›</span>
-                          {getService(slug)!.title}
+                <div className="mega-body">
+                  {/* Categories on the left; pointing at one shows only its services. */}
+                  <div className="mega-groups" style={{ '--i': group } as CSSProperties}>
+                    <span className="mega-glow" aria-hidden="true" />
+                    {serviceGroups.map((g, n) => (
+                      <button
+                        key={g.title}
+                        type="button"
+                        className={n === group ? 'is-on' : ''}
+                        aria-pressed={n === group}
+                        onMouseEnter={() => setGroup(n)}
+                        onFocus={() => setGroup(n)}
+                        onClick={() => setGroup(n)}
+                      >
+                        {t(g.title)}
+                        <span className="mega-count">{g.slugs.length}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="mega-items" key={group}>
+                    {serviceGroups[group].slugs.map((slug, n) => {
+                      const s = getService(slug)!
+                      return (
+                        <a key={slug} className="mm-tile" href={serviceHref(slug)} style={{ '--n': n } as CSSProperties}>
+                          <span className="mm-icon"><Icon markup={s.icon} size={18} strokeWidth={1.8} /></span>
+                          <span className="mm-title">{t(s.title)}</span>
+                          <span className="mm-arrow" aria-hidden="true">→</span>
                         </a>
-                      ))}
-                    </div>
-                  ))}
+                      )
+                    })}
+                  </div>
                 </div>
                 <div className="mega-foot">
-                  <span>Not sure which service fits? We'll help you decide.</span>
-                  <a href={paths.services}>View all services →</a>
+                  <span>{t("Not sure which service fits? We'll help you decide.")}</span>
+                  <a href={paths.services}>{t('View all services →')}</a>
                 </div>
               </div>
             )}
           </div>
           {links.filter((l) => !l.mobileOnly).map((l) => (
-            <a key={l.href} className={`navlink${activeHref === l.href ? ' is-active' : ''}`} href={l.href} aria-current={activeHref === l.href ? 'page' : undefined}>{l.label}</a>
+            <a key={l.href} className={`navlink${activeHref === l.href ? ' is-active' : ''}`} href={l.href} aria-current={activeHref === l.href ? 'page' : undefined}>{t(l.label)}</a>
           ))}
         </nav>
 
-        <a className="btn btn-accent header-cta" href={paths.contact}>Talk to an Expert</a>
+        <a className="btn btn-ghost header-cta" href={paths.contact}>{t('Talk to an Expert')}</a>
 
-        <button type="button" className="icon-btn menu-toggle" aria-label="Open menu" onClick={() => setMobileOpen(true)}>
+        <button type="button" className="icon-btn menu-toggle" aria-label={t('Open menu')} onClick={() => setMobileOpen(true)}>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M3 6h14M3 10h14M3 14h14" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
           </svg>
@@ -101,27 +124,27 @@ export function Header({ activeHref }: { activeHref?: string }) {
       </div>
 
       {mobileOpen && (
-        <div className="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+        <div className="mobile-menu" role="dialog" aria-modal="true" aria-label={t('Menu')}>
           <div className="mobile-menu-top">
             <span className="brand"><Logo size={30} /><span>wesprime</span></span>
-            <button type="button" className="icon-btn" aria-label="Close menu" onClick={() => setMobileOpen(false)}>×</button>
+            <button type="button" className="icon-btn" aria-label={t('Close menu')} onClick={() => setMobileOpen(false)}>×</button>
           </div>
-          <nav className="mobile-nav" aria-label="Mobile">
-            <a href={paths.home}>Home</a>
-            <a href={paths.about}>About</a>
+          <nav className="mobile-nav" aria-label={t('Mobile')}>
+            <a href={paths.home}>{t('Home')}</a>
+            <a href={paths.about}>{t('About')}</a>
             <details>
-              <summary>Services<span>+</span></summary>
+              <summary>{t('Services')}<span>+</span></summary>
               <div className="mobile-sub">
-                <a href={paths.services}>All services</a>
+                <a href={paths.services}>{t('All services')}</a>
                 {serviceGroups.flatMap((g) => g.slugs).map((slug) => (
-                  <a key={slug} href={serviceHref(slug)}>{getService(slug)!.title}</a>
+                  <a key={slug} href={serviceHref(slug)}>{t(getService(slug)!.title)}</a>
                 ))}
               </div>
             </details>
-            {links.map((l) => <a key={l.href} href={l.href}>{l.label}</a>)}
+            {links.map((l) => <a key={l.href} href={l.href}>{t(l.label)}</a>)}
           </nav>
           <div className="mobile-menu-foot">
-            <a className="btn btn-accent btn-lg" href={paths.contact}>Talk to an Expert</a>
+            <a className="btn btn-accent btn-lg" href={paths.contact}>{t('Talk to an Expert')}</a>
             <p>{contact.email} · {contact.phone}</p>
           </div>
         </div>

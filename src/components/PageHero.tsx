@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 import { paths } from '../router'
+import { useT } from '../i18n'
+import { Headline } from './Headline'
 
 type Props = {
   /** Trail after "Home"; the last item is the current page */
@@ -12,6 +14,7 @@ type Props = {
 }
 
 export function PageHero({ crumbs, title, lead, image, children }: Props) {
+  const t = useT()
   return (
     <section className={`svc-hero dark page-hero${image ? ' has-image' : ''}`}>
       {image && <img className="page-hero-img" src={image} alt="" />}
@@ -24,17 +27,17 @@ export function PageHero({ crumbs, title, lead, image, children }: Props) {
         <circle className="pulse" cx="620" cy="330" r="5" fill="#6FA3FF" />
       </svg>
       <div className="container svc-hero-inner">
-        <nav aria-label="Breadcrumb" className="breadcrumb">
-          <a href={paths.home}>Home</a>
+        <nav aria-label={t("Breadcrumb")} className="breadcrumb">
+          <a href={paths.home}>{t("Home")}</a>
           {crumbs.map(([label, href], i) => (
             <span key={label} className="crumb">
               <span aria-hidden="true">›</span>
-              {href && i < crumbs.length - 1 ? <a href={href}>{label}</a> : <span aria-current="page">{label}</span>}
+              {href && i < crumbs.length - 1 ? <a href={href}>{t(label)}</a> : <span aria-current="page">{t(label)}</span>}
             </span>
           ))}
         </nav>
-        <h1>{title}</h1>
-        {lead && <p className="lead">{lead}</p>}
+        <Headline as="h1" text={title} />
+        {lead && <p className="lead">{t(lead)}</p>}
         {children}
       </div>
     </section>

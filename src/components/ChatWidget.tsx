@@ -1,6 +1,8 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { contact, whatsappHref } from '../data/content'
 import { CountryPicker } from './CountryPicker'
+import { WhatsAppIcon } from './Icon'
+import { useT } from '../i18n'
 
 // Floating "Let's talk" widget. The site has no backend, so the enquiry is
 // handed to WhatsApp (or email) with the visitor's details already filled in.
@@ -33,6 +35,7 @@ function ChatIcon() {
 }
 
 export function ChatWidget() {
+  const t = useT()
   const [open, setOpen] = useState(false)
   const [greeting, setGreeting] = useState(false)
   const [sent, setSent] = useState<string | null>(null)
@@ -124,63 +127,69 @@ export function ChatWidget() {
     <div className="chat">
       {greeting && !open && (
         <div className="chat-greeting" role="status">
-          <button type="button" className="chat-greeting-close" aria-label="Dismiss" onClick={dismissGreeting}>×</button>
-          <b>We're here to help!</b>
-          <span>Questions about Odoo? Talk to our team.</span>
+          <button type="button" className="chat-greeting-close" aria-label={t("Dismiss")} onClick={dismissGreeting}>×</button>
+          <b>{t("We're here to help!")}</b>
+          <span>{t("Questions about Odoo? Talk to our team.")}</span>
         </div>
       )}
 
       {open && (
         <div className="chat-panel" role="dialog" aria-modal="false" aria-labelledby={`${id}-title`}>
           <div className="chat-top">
-            <button type="button" className="chat-icon-btn" aria-label="Back" onClick={close}>
+            <button type="button" className="chat-icon-btn" aria-label={t("Back")} onClick={close}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
             </button>
-            <button type="button" className="chat-icon-btn" aria-label="Close chat" onClick={close}>
+            <button type="button" className="chat-icon-btn" aria-label={t("Close chat")} onClick={close}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
             </button>
           </div>
 
           <div className="chat-scroll">
             <p className="chat-intro" id={`${id}-title`}>
-              Please provide your details below. We're ready to assist you.
-              <span lang="ar" dir="rtl">يرجى تزويدنا ببياناتك أدناه، ونحن جاهزون لمساعدتك.</span>
+              {t("Please provide your details below. We're ready to assist you.")}
             </p>
 
             {sent ? (
               <div className="chat-card chat-sent" role="status">
                 <span className="chat-sent-icon" aria-hidden="true">✓</span>
-                <b>Thank you, {sent}!</b>
-                <p>Your message is ready to send. If nothing opened, contact us at <a href={`mailto:${contact.email}`}>{contact.email}</a> or <a href={contact.phoneHref}>{contact.phone}</a>.</p>
-                <button type="button" className="chat-start" onClick={() => setSent(null)}>Send another message</button>
+                <b>{t('Thank you, {name}!', { name: sent })}</b>
+                <p>{t("Your message is ready to send. If nothing opened, contact us at")} <a href={`mailto:${contact.email}`}>{contact.email}</a> {t("or")} <a href={contact.phoneHref}>{contact.phone}</a>.</p>
+                <button type="button" className="chat-start" onClick={() => setSent(null)}>{t("Send another message")}</button>
               </div>
             ) : (
               <form ref={formRef} className="chat-card chat-form" onSubmit={submit('whatsapp')} noValidate>
-                <input className="chat-field" name="name" autoComplete="name" placeholder="Name" aria-label="Name" required />
+                <input className="chat-field" name="name" autoComplete="name" placeholder={t("Name")} aria-label={t("Name")} required />
                 <div className="chat-phone">
-                  <span className="chat-phone-label">Phone</span>
+                  <span className="chat-phone-label">{t("Phone")}</span>
                   <CountryPicker value={country.iso} onChange={(iso, code) => setCountry({ iso, code })} />
                   <span className="chat-phone-code">{country.code.replace('+', '+ ')}</span>
                   <input type="hidden" name="code" value={country.code} />
-                  <input name="phone" type="tel" inputMode="tel" autoComplete="tel-national" aria-label="Phone number" />
+                  <input name="phone" type="tel" inputMode="tel" autoComplete="tel-national" aria-label={t("Phone number")} />
                 </div>
-                <input className="chat-field" name="email" type="email" autoComplete="email" placeholder="Email" aria-label="Email" />
-                <textarea className="chat-field" name="message" rows={3} placeholder="Enter your Message / أدخل رسالتك" aria-label="Message" required />
-                {error && <p className="chat-error" role="alert">{error}</p>}
+                <input className="chat-field" name="email" type="email" autoComplete="email" placeholder={t("Email")} aria-label={t("Email")} />
+                <textarea className="chat-field" name="message" rows={3} placeholder={t("Enter your message")} aria-label={t("Message")} required />
+                {error && <p className="chat-error" role="alert">{t(error)}</p>}
                 <button type="submit" className="chat-start">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
-                  Start Chat
+                  {t("Start Chat")}
                 </button>
-                <button type="button" className="chat-alt" onClick={() => submit('email')()}>or send by email</button>
+                <button type="button" className="chat-alt" onClick={() => submit('email')()}>{t("or send by email")}</button>
               </form>
             )}
           </div>
 
           <p className="chat-note">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V8a4 4 0 018 0v3" /></svg>
-            Your details are shared only with Wesprime
+            {t("Your details are shared only with Wesprime")}
           </p>
         </div>
+      )}
+
+      {!open && (
+        <a className="wa-float" href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label={t('Chat with us on WhatsApp')}>
+          <span className="wa-float-tip" aria-hidden="true">{t('Chat with us on WhatsApp')}</span>
+          <WhatsAppIcon size={32} />
+        </a>
       )}
 
       {!open && (
@@ -189,12 +198,12 @@ export function ChatWidget() {
           type="button"
           className="chat-launcher"
           aria-haspopup="dialog"
-          aria-label="Let's talk"
+          aria-label={t("Let's talk")}
           onClick={toggle}
         >
           <ChatIcon />
           <span className="chat-launcher-text">
-            Let's talk <span lang="ar" dir="rtl">/ لنتحدث</span>
+            {t("Let's talk")}
           </span>
         </button>
       )}

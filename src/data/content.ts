@@ -18,45 +18,6 @@ export const aboutPoints = [
   'Long-term support',
 ]
 
-export const coreServices = [
-  {
-    slug: 'erp-consultation',
-    title: 'ERP Consultation & AI Enhancement',
-    points: ['Business process analysis', 'ERP roadmap', 'Odoo module recommendations', 'AI-driven CRM opportunities', 'Process optimization'],
-    icon: '<path d="M12 26l5-6 4 3 7-9" stroke-linecap="round" stroke-linejoin="round"/>',
-  },
-  {
-    slug: 'odoo-implementation',
-    title: 'Odoo Implementation',
-    points: ['Requirement analysis', 'Configuration', 'Module implementation', 'Workflow setup', 'Testing & go-live'],
-    icon: '<rect x="12" y="12" width="7" height="7" rx="1.5"/><rect x="21" y="12" width="7" height="7" rx="1.5"/><rect x="12" y="21" width="7" height="7" rx="1.5"/><rect x="21" y="21" width="7" height="7" rx="1.5" fill="currentColor"/>',
-  },
-  {
-    slug: 'custom-odoo-development',
-    title: 'Custom Odoo Development',
-    points: ['Custom modules & workflows', 'Dashboards & reports', 'Business logic', 'Third-party integrations'],
-    icon: '<path d="M16 14l-6 6 6 6M24 14l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>',
-  },
-  {
-    slug: 'data-migration',
-    title: 'Data Migration & Integration',
-    points: ['Legacy data migration', 'Data mapping & validation', 'Odoo integrations', 'E-commerce & POS integrations'],
-    icon: '<ellipse cx="20" cy="13" rx="8" ry="3"/><path d="M12 13v14c0 1.7 3.6 3 8 3s8-1.3 8-3V13M12 20c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
-  },
-  {
-    slug: 'training-enablement',
-    title: 'Training & Enablement',
-    points: ['User & functional training', 'Technical guidance', 'Documentation', 'User adoption'],
-    icon: '<path d="M10 17l10-5 10 5-10 5-10-5z" stroke-linejoin="round"/><path d="M14 19v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/>',
-  },
-  {
-    slug: 'support-maintenance',
-    title: 'Support & Maintenance',
-    points: ['Post-go-live support', 'Troubleshooting', 'Performance optimization', 'Enhancements & maintenance'],
-    icon: '<path d="M20 11l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9v-6l8-3z" stroke-linejoin="round"/><path d="M16.5 20l2.5 2.5 4.5-5" stroke-linecap="round"/>',
-  },
-]
-
 export const odooModules = [
   { name: 'Finance', desc: 'Accounting, invoicing, payments, bank reconciliation and financial reporting in one ledger, updated automatically by every sale, purchase and payroll run.', apps: ['Accounting', 'Invoicing', 'Expenses'] },
   { name: 'Sales', desc: 'Quotations, orders and pricing flow straight into delivery and invoicing, so nothing is re-keyed between teams.', apps: ['Sales', 'Point of Sale', 'E-commerce'] },
@@ -133,7 +94,6 @@ export const faqs = [
   ['Can you migrate data from an existing ERP?', 'Yes. We migrate legacy data with structured mapping and validation before go-live.'],
   ['Can Odoo integrate with third-party applications?', 'Yes. We connect Odoo with external systems, including e-commerce and POS platforms and other third-party applications.'],
   ['Do you provide post-go-live support?', 'Yes — troubleshooting, performance optimization, enhancements and continuous maintenance.'],
-  ['Can you develop custom Odoo modules?', 'Yes. Custom module development is one of our core services.'],
   ['How long does an Odoo implementation take?', 'It depends on the number of modules, level of customization and volume of data. We confirm a timeline after the discovery and analysis stage.'],
   ['Can you provide functional and technical training?', 'Yes. We provide user and functional training, technical guidance and documentation to support adoption.'],
   ['Is Odoo compliant with ZATCA Phase 2 e-invoicing?', "Yes. Odoo's Saudi localization includes ZATCA e-invoicing for standard and simplified invoices, including clearance, reporting, QR codes and cryptographic stamps. We configure it, test it in the Fatoora simulation portal and take it to production with you."],
@@ -143,10 +103,13 @@ export const faqs = [
 ]
 
 export const serviceOptions = [
-  'Odoo Implementation',
   'ERP Consultation',
-  'Custom Odoo Development',
+  'ZATCA E-Invoicing',
+  'Inventory Management',
+  'CRM',
   'Data Migration & Integration',
+  'ERP Health Check',
+  'Dashboards & Reporting',
   'Training & Support',
   'Digital Solutions',
 ]

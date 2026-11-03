@@ -1,0 +1,32 @@
+/* Section backgrounds: light and dark sections alternate down the homepage,
+   and each light one gets its own wash so no two neighbours look the same.
+   Loaded last so these override the base section colors. */
+
+/* "Built on purpose": the site's neutral light grey, keeping its faint dot pattern. */
+.stands { background: var(--tint); }
+
+/* "Try it": airy mesh with a blue glow and a hint of mint. */
+.demo-band {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(55% 45% at 0% 0%, rgba(111, 163, 255, .22), transparent 70%),
+    radial-gradient(45% 45% at 100% 100%, rgba(18, 183, 106, .10), transparent 70%),
+    #F6F8FC;
+}
+
+/* Closing call to action: bright brand-blue gradient between two navy blocks. */
+.cta { background: linear-gradient(120deg, #2A6AE0 0%, #1D5FD6 40%, #0B3FA0 100%); }
+.cta::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(520px 320px at 88% -10%, rgba(255, 255, 255, .22), transparent 70%),
+    radial-gradient(rgba(255, 255, 255, .14) 1px, transparent 1px) 0 0 / 22px 22px;
+}
+.cta-lines line { stroke: #ffffff; }
+.cta-lines circle { fill: #ffffff; }
+.cta .lead { color: rgba(255, 255, 255, .86); }
+.cta .scribble { background-image: linear-gradient(100deg, #ffffff 10%, #CFE0FF 50%, #ffffff 90%); }
+.cta .scribble path { stroke: rgba(255, 255, 255, .75); }
+.cta .btn-accent { background: #ffffff; border-color: #ffffff; color: var(--blue-dark); font-weight: 700; }
+.cta .btn-accent:hover { background: var(--navy); border-color: var(--navy); color: #ffffff; }
+.cta .btn-ghost { border-color: rgba(255, 255, 255, .6); }

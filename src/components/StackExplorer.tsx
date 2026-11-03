@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { stackLayers } from '../data/content'
 import { Icon } from './Icon'
+import { useT } from '../i18n'
 
 const AUTO_MS = 4500
 
@@ -10,6 +11,7 @@ const AUTO_MS = 4500
  * Steps through the layers on its own until the visitor picks one.
  */
 export function StackExplorer() {
+  const t = useT()
   const [active, setActive] = useState(0)
   const [auto, setAuto] = useState(true)
   const [visible, setVisible] = useState(false)
@@ -39,8 +41,8 @@ export function StackExplorer() {
   return (
     <div className="sx" ref={ref}>
       <div className="sx-visual">
-        <span className="sx-edge top" aria-hidden="true">People</span>
-        <div className="sx-stack" role="tablist" aria-label="Layers of an Odoo system">
+        <span className="sx-edge top" aria-hidden="true">{t("People")}</span>
+        <div className="sx-stack" role="tablist" aria-label={t("Layers of an Odoo system")}>
           {stackLayers.map((l, i) => (
             <button
               key={l.id}
@@ -53,37 +55,37 @@ export function StackExplorer() {
             >
               <span className="sx-slab-icon"><Icon markup={l.icon} size={20} strokeWidth={1.8} /></span>
               <span className="sx-slab-text">
-                <b>{l.plain}</b>
-                <small>{String(i + 1).padStart(2, '0')} · {l.name}</small>
+                <b>{t(l.plain)}</b>
+                <small>{String(i + 1).padStart(2, '0')} · {t(l.name)}</small>
               </span>
             </button>
           ))}
           <span className="sx-pulse" aria-hidden="true" style={{ top: `${(active / (stackLayers.length - 1)) * 100}%` }} />
         </div>
-        <span className="sx-edge bottom" aria-hidden="true">Servers</span>
+        <span className="sx-edge bottom" aria-hidden="true">{t("Servers")}</span>
       </div>
 
       <div className="sx-card" key={layer.id} role="tabpanel">
         <div className="sx-card-head">
           <span className="sx-card-icon"><Icon markup={layer.icon} size={26} strokeWidth={1.7} /></span>
           <div>
-            <span className="sx-card-label">Layer {active + 1} of {stackLayers.length} · {layer.name}</span>
-            <h3>{layer.plain}</h3>
+            <span className="sx-card-label">{t('Layer {n} of {total}', { n: active + 1, total: stackLayers.length })} · {t(layer.name)}</span>
+            <h3>{t(layer.plain)}</h3>
           </div>
         </div>
-        <p className="sx-summary">{layer.summary}</p>
+        <p className="sx-summary">{t(layer.summary)}</p>
         <div className="sx-example">
-          <span>For example</span>
-          <p>{layer.example}</p>
+          <span>{t("For example")}</span>
+          <p>{t(layer.example)}</p>
         </div>
         <div className="sx-cols">
           <div>
-            <span className="sx-title">Technology</span>
-            <div className="sx-chips">{layer.items.map((t) => <span key={t}>{t}</span>)}</div>
+            <span className="sx-title">{t("Technology")}</span>
+            <div className="sx-chips">{layer.items.map((item) => <span key={item}>{t(item)}</span>)}</div>
           </div>
           <div>
-            <span className="sx-title">What Wesprime does</span>
-            <ul className="sx-work">{layer.work.map((w) => <li key={w}>{w}</li>)}</ul>
+            <span className="sx-title">{t("What Wesprime does")}</span>
+            <ul className="sx-work">{layer.work.map((w) => <li key={w}>{t(w)}</li>)}</ul>
           </div>
         </div>
         <div className="sx-progress" aria-hidden="true">

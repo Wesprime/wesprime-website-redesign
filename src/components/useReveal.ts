@@ -6,12 +6,14 @@ const TARGETS = [
   'main .section .container > *',
   'main .pillar',
   'main .card',
-  'main .bento-card',
   'main .why-card',
   'main .wo-card',
   'main .dp-card',
   'main .ind-tile',
   'main .step-card',
+  'main .sp-note',
+  'main .sp-win',
+  'main .sp-tile',
 ].join(', ')
 
 export function useReveal(key: string) {

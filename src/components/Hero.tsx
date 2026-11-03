@@ -1,8 +1,13 @@
-import { useRef, type PointerEvent } from 'react'
+import { useEffect, useRef, useState, type PointerEvent } from 'react'
+import { languages, makeT, useT, type Lang } from '../i18n'
 import { mediaUrl } from '../data/saudi'
-import { paths } from '../router'
+import { HeroCopy } from './HeroCopy'
 
 const bars = [38, 52, 44, 68, 58, 82, 74]
+
+// Each hero language stays on screen this long before the next one (EN → AR → HI).
+const LANG_MS = 5000
+const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
  * Homepage hero: full-bleed office photo with a slow zoom, a navy fade for
@@ -10,6 +15,20 @@ const bars = [38, 52, 44, 68, 58, 82, 74]
  */
 export function Hero() {
   const ref = useRef<HTMLElement>(null)
+  const scrollT = useT()
+  const [lang, setLang] = useState<Lang>('en')
+  const [auto] = useState(() => !reducedMotion())
+  const t = makeT(lang)
+
+  // Move to the next language; picking one by hand restarts the timer from there.
+  useEffect(() => {
+    if (!auto) return
+    const id = window.setTimeout(() => {
+      const i = languages.findIndex((l) => l.code === lang)
+      setLang(languages[(i + 1) % languages.length].code)
+    }, LANG_MS)
+    return () => window.clearTimeout(id)
+  }, [lang, auto])
 
   // Pointer position as -1…1, written to CSS variables (no re-render).
   const onMove = (e: PointerEvent<HTMLElement>) => {
@@ -33,47 +52,36 @@ export function Hero() {
       <div className="hero-sweep" aria-hidden="true" />
 
       <div className="container hero-photo-inner">
-        <div className="hero-copy">
-          <div className="hero-badge">
-            <span className="hero-live" aria-hidden="true" />
-            Odoo ERP Consulting &amp; Digital Transformation
-          </div>
-          <h1>Transform your business with <span className="hero-hl">intelligent ERP</span> &amp; digital solutions</h1>
-          <p className="lead">Wesprime helps businesses simplify operations, implement powerful Odoo ERP solutions, automate workflows and build scalable digital systems tailored to the way they work.</p>
-          <div className="btn-row">
-            <a className="btn btn-accent btn-lg" href={paths.contact}>Talk to an Expert</a>
-            <a className="btn btn-ghost btn-lg" href={paths.solutions}>Explore Our Solutions →</a>
-          </div>
-        </div>
+        <HeroCopy lang={lang} duration={auto ? LANG_MS : null} onPick={setLang} />
 
-        <div className="hero-cards" aria-hidden="true">
+        <div className="hero-cards" lang={lang} aria-hidden="true">
           <div className="glass glass-status">
             <span className="hero-live" />
             <b>Odoo ERP</b>
-            <span>All apps connected</span>
+            <span>{t('All apps connected')}</span>
           </div>
           <div className="glass glass-dash">
             <div className="glass-title">
-              <span>Live operations</span>
-              <span className="glass-up">▲ on track</span>
+              <span>{t('Live operations')}</span>
+              <span className="glass-up">▲ {t('on track')}</span>
             </div>
             <div className="glass-bars">
               {bars.map((h, i) => <i key={i} style={{ height: `${h}%`, animationDelay: `${0.6 + i * 0.08}s` }} />)}
             </div>
-            <div className="glass-legend"><span>Sales</span><span>Stock</span><span>Finance</span></div>
+            <div className="glass-legend"><span>{t('Sales')}</span><span>{t('Stock')}</span><span>{t('Finance')}</span></div>
           </div>
           <div className="glass glass-flow">
-            <div className="glass-title"><span>Automated workflow</span></div>
+            <div className="glass-title"><span>{t('Automated workflow')}</span></div>
             <div className="glass-steps">
-              <span>Quote</span><span>Order</span><span className="is-on">Invoice</span>
+              <span>{t('Quote')}</span><span>{t('Order')}</span><span className="is-on">{t('Invoice')}</span>
               <i className="glass-dot" />
             </div>
           </div>
         </div>
       </div>
 
-      <a className="hero-scroll" href="#pillars" onClick={(e) => { e.preventDefault(); document.getElementById('pillars')?.scrollIntoView({ behavior: 'smooth' }) }}>
-        <span>Scroll</span>
+      <a className="hero-scroll" href="#outcomes" onClick={(e) => { e.preventDefault(); document.getElementById('outcomes')?.scrollIntoView({ behavior: 'smooth' }) }}>
+        <span>{scrollT('Scroll')}</span>
         <i aria-hidden="true" />
       </a>
     </section>

@@ -1,7 +1,8 @@
-import { useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { Icon } from './Icon'
+import { useT } from '../i18n'
 
-// Drag-to-compare: the same business process done manually vs. in Odoo.
+// Process race: the same business process run by hand and in Odoo, animated side by side.
 
 type Step = { text: string; icon: string }
 type Scenario = { id: string; label: string; before: Step[]; after: Step[] }
@@ -78,64 +79,139 @@ const scenarios: Scenario[] = [
   },
 ]
 
-function Side({ kind, steps }: { kind: 'before' | 'after'; steps: Step[] }) {
+// Timeline of one race, in ms: Odoo hops quickly from step to step, the manual process waits at each hand-off.
+const START = 500
+const ODOO_GAP = 550
+const MANUAL_GAP = 1700
+const HOLD = 3200
+const TOTAL = START + MANUAL_GAP * 4 + HOLD
+const TICK = 100
+
+/** How many steps the token has reached by this point in the race. */
+function reachedAt(elapsed: number, gap: number, count: number) {
+  if (elapsed < START) return 0
+  return Math.min(count, Math.floor((elapsed - START) / gap) + 1)
+}
+
+function Lane({ kind, steps, reached }: { kind: 'before' | 'after'; steps: Step[]; reached: number }) {
+  const t = useT()
   const before = kind === 'before'
+  const done = reached === steps.length
+  const at = Math.max(0, reached - 1)
+  let status = before ? t('Waiting on someone…') : t('Running…')
+  if (reached === 0) status = t('Starting…')
+  if (done) status = before ? t('Done after {n} hand-offs', { n: steps.length }) : t('Done — nothing re-typed')
+
   return (
-    <div className={`cs-side cs-${kind}`}>
-      <div className="cs-side-head">
-        <span className="cs-pill">{before ? 'Today' : 'With Odoo'}</span>
-        <h3>{before ? 'Manual & disconnected' : 'Connected & automatic'}</h3>
+    <div
+      className={`pr-lane pr-${kind}${done ? ' is-done' : ''}${reached > 0 ? ' is-moving' : ''}`}
+      style={{ '--at': at, '--count': steps.length } as CSSProperties}
+    >
+      <div className="pr-head">
+        <span className="cs-pill">{before ? t('Today') : t('With Odoo')}</span>
+        <h3>{before ? t('Manual & disconnected') : t('Connected & automatic')}</h3>
+        <span className="pr-status">
+          {done ? <Icon markup={i.check} size={15} strokeWidth={2} /> : <span className="pr-spin" aria-hidden="true" />}
+          {status}
+        </span>
+        <span className="pr-count">{reached}/{steps.length}</span>
       </div>
-      <ol className="cs-steps">
-        {steps.map((s, n) => (
-          <li key={s.text}>
-            <span className="cs-icon"><Icon markup={s.icon} size={18} strokeWidth={1.8} /></span>
-            <span className="cs-text">{s.text}</span>
-            <span className="cs-tag">{before ? 'Manual' : 'Automatic'}</span>
-            {n < steps.length - 1 && <span className="cs-join" aria-hidden="true" />}
-          </li>
-        ))}
-      </ol>
+      <div className="pr-track">
+        <span className="pr-rail" aria-hidden="true"><span className="pr-fill" /></span>
+        <span className="pr-token" aria-hidden="true">
+          <Icon markup={before ? i.doc : i.bolt} size={16} strokeWidth={2} />
+        </span>
+        <ol className="pr-steps">
+          {steps.map((s, n) => (
+            <li
+              key={s.text}
+              className={`${n < reached ? 'is-done' : ''}${n === reached - 1 && !done ? ' is-current' : ''}`}
+              style={{ '--n': n } as CSSProperties}
+            >
+              <span className="pr-node"><Icon markup={s.icon} size={18} strokeWidth={1.8} /></span>
+              <span className="pr-label">{t(s.text)}</span>
+              <span className="pr-tag">{before ? t('Manual') : t('Automatic')}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
   )
 }
 
+/** The same process run twice, side by side: by hand, and in Odoo. Plays through every scenario on its own. */
 export function CompareSlider() {
-  const [tab, setTab] = useState(0)
-  const [pos, setPos] = useState(50)
-  const sc = scenarios[tab]
+  const t = useT()
+  const [clock, setClock] = useState({ tab: 0, elapsed: 0 })
+  const [auto, setAuto] = useState(true)
+  const [inView, setInView] = useState(false)
+  const [reduce] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const ref = useRef<HTMLDivElement>(null)
+  const sc = scenarios[clock.tab]
+  // With reduced motion, show every race already finished.
+  const elapsed = reduce ? TOTAL - HOLD : clock.elapsed
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.3 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!auto || !inView || reduce) return
+    const id = window.setInterval(() => {
+      setClock((c) => (c.elapsed + TICK >= TOTAL
+        ? { tab: (c.tab + 1) % scenarios.length, elapsed: 0 }
+        : { ...c, elapsed: c.elapsed + TICK }))
+    }, TICK)
+    return () => window.clearInterval(id)
+  }, [auto, inView, reduce])
+
+  const manual = reachedAt(elapsed, MANUAL_GAP, sc.before.length)
+  const odoo = reachedAt(elapsed, ODOO_GAP, sc.after.length)
+  const finished = manual === sc.before.length
 
   return (
-    <div className="cs">
-      <div className="cs-tabs" role="tablist" aria-label="Business process">
-        {scenarios.map((s, n) => (
-          <button key={s.id} type="button" role="tab" aria-selected={tab === n} className={tab === n ? 'is-on' : ''} onClick={() => { setTab(n); setPos(50) }}>
-            {s.label}
-          </button>
-        ))}
+    <div className="cs" ref={ref}>
+      <div className="cs-bar">
+        <div className="cs-tabs" role="tablist" aria-label={t("Business process")}>
+          {scenarios.map((s, n) => (
+            <button key={s.id} type="button" role="tab" aria-selected={clock.tab === n} className={clock.tab === n ? 'is-on' : ''} onClick={() => setClock({ tab: n, elapsed: 0 })}>
+              {t(s.label)}
+              {clock.tab === n && !reduce && <i className="cs-tab-progress" style={{ transform: `scaleX(${elapsed / TOTAL})` }} aria-hidden="true" />}
+            </button>
+          ))}
+        </div>
+        {!reduce && (
+          <div className="cs-ctrl">
+            <button type="button" className="cs-play" onClick={() => setClock((c) => ({ ...c, elapsed: 0 }))}>
+              <Icon markup={i.sync} size={14} strokeWidth={2.2} />
+              {t("Replay")}
+            </button>
+            <button type="button" className="cs-play" onClick={() => setAuto((a) => !a)} aria-pressed={!auto}>
+              {auto ? (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" /></svg>
+              )}
+              {auto ? t("Pause") : t("Play")}
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className="cs-frame" style={{ '--pos': `${pos}%` } as CSSProperties} key={sc.id}>
-        <Side kind="after" steps={sc.after} />
-        <div className="cs-clip" aria-hidden={pos < 5}>
-          <Side kind="before" steps={sc.before} />
-        </div>
-        <div className="cs-handle" aria-hidden="true">
+      <div className="pr" key={sc.id}>
+        <Lane kind="before" steps={sc.before} reached={manual} />
+        <Lane kind="after" steps={sc.after} reached={odoo} />
+        <div className={`pr-result${finished ? ' is-on' : ''}`} aria-live="polite">
+          <span className="pr-result-icon"><Icon markup={i.bolt} size={18} strokeWidth={2} /></span>
           <span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6" /></svg>
+            <b>{t("{n} manual hand-offs removed.", { n: sc.before.length })}</b> {t("Every step runs in one connected system — entered once, never re-typed.")}
           </span>
         </div>
-        <input
-          className="cs-range"
-          type="range"
-          min={0}
-          max={100}
-          value={pos}
-          onChange={(e) => setPos(Number(e.target.value))}
-          aria-label="Drag to compare the manual process with Odoo"
-        />
       </div>
-      <p className="cs-hint">Drag the handle to compare</p>
     </div>
   )
 }

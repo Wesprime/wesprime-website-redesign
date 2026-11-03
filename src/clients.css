@@ -1,0 +1,55 @@
+/* ---------- Client logos (homepage) ---------- */
+.clients { position: relative; overflow: hidden; }
+.clients::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(700px 300px at 50% 80%, rgba(29, 95, 214, .28), transparent 70%), radial-gradient(rgba(111, 163, 255, .16) 1px, transparent 1px) 0 0 / 22px 22px;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%, #000 80%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 30%, #000 80%, transparent);
+}
+.clients > * { position: relative; }
+.clients .eyebrow { color: var(--accent-on-dark); }
+.clients-lead { max-width: 600px; color: var(--on-dark); font-size: 16px; line-height: 1.6; }
+
+.cl-row {
+  margin-top: 56px; padding: 12px 0 18px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.cl-track { display: flex; gap: 18px; width: max-content; margin: 0; padding: 0; list-style: none; animation: cl-slide 36s linear infinite; }
+.cl-row:hover .cl-track { animation-play-state: paused; }
+@keyframes cl-slide { to { transform: translateX(calc(-50% - 9px)); } }
+
+.cl-tile {
+  flex: none; width: 180px; display: flex; flex-direction: column; overflow: hidden;
+  border-radius: 14px; background: #ffffff; box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+}
+.cl-logo { height: 88px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+/* Multiply blends each logo's own white or off-white background into the tile. */
+.cl-logo img { max-width: 68%; max-height: 66%; object-fit: contain; mix-blend-mode: multiply; transform: translateY(var(--y, 0%)) scale(var(--s, 1)); transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
+/* All-white logos are drawn in dark ink so they show on the white tile. */
+.cl-logo img.is-dark { filter: brightness(0); opacity: .85; }
+.cl-name {
+  min-height: 42px; padding: 8px 12px; display: flex; align-items: center; justify-content: center; text-align: center;
+  border-top: 1px solid var(--line); background: var(--tint); color: var(--ink); font-size: 12.5px; font-weight: 700; line-height: 1.3;
+  transition: background .35s ease, color .35s ease;
+}
+.cl-tile:hover { transform: translateY(-6px); box-shadow: 0 22px 44px rgba(0, 0, 0, .35), 0 0 0 3px var(--accent-on-dark); }
+.cl-tile:hover img { transform: translateY(var(--y, 0%)) scale(calc(var(--s, 1) * 1.08)); }
+.cl-tile:hover .cl-name { background: var(--blue); color: #ffffff; }
+
+@media (max-width: 720px) {
+  .cl-row { margin-top: 40px; }
+  .cl-track { gap: 12px; }
+  @keyframes cl-slide { to { transform: translateX(calc(-50% - 6px)); } }
+  .cl-tile { width: 150px; border-radius: 12px; }
+  .cl-logo { height: 76px; }
+  .cl-name { min-height: 40px; font-size: 12px; }
+}
+
+/* No motion: show each client once, still. */
+@media (prefers-reduced-motion: reduce) {
+  .cl-row { -webkit-mask-image: none; mask-image: none; }
+  .cl-dup { display: none; }
+  .cl-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; }
+}

@@ -2,6 +2,7 @@ import { appIcons } from '../data/appIcons'
 import { odooModules } from '../data/content'
 import { paths } from '../router'
 import { Icon } from './Icon'
+import { useT } from '../i18n'
 
 type Module = (typeof odooModules)[number]
 
@@ -44,6 +45,7 @@ const scope = ['Requirement analysis', 'Configuration', 'Customization', 'Data m
 type Props = { index: number; onSelect: (i: number) => void }
 
 export function ModuleCard({ index, onSelect }: Props) {
+  const t = useT()
   const sel: Module = odooModules[index]
   const total = odooModules.length
   const go = (step: number) => onSelect((index + step + total) % total)
@@ -54,54 +56,54 @@ export function ModuleCard({ index, onSelect }: Props) {
       <div className="mc-head">
         <span className="mc-icon"><Icon markup={moduleIcons[sel.name] ?? appIcons.Inventory} size={30} strokeWidth={1.6} /></span>
         <div>
-          <span className="mc-label">Module focus</span>
-          <h3>{sel.name}</h3>
+          <span className="mc-label">{t("Module focus")}</span>
+          <h3>{t(sel.name)}</h3>
         </div>
         <span className="mc-count">{String(index + 1).padStart(2, '0')}<small> / {String(total).padStart(2, '0')}</small></span>
       </div>
 
       <div className="mc-body">
-        <p className="mc-desc">{sel.desc}</p>
+        <p className="mc-desc">{t(sel.desc)}</p>
 
         <div className="mc-block">
-          <span className="mc-title">Apps included</span>
+          <span className="mc-title">{t("Apps included")}</span>
           <div className="mc-apps">
             {sel.apps.map((a) => (
               <span key={a} className="mc-app">
                 <Icon markup={appIcons[appAliases[a] ?? a] ?? moduleIcons[sel.name]} size={16} strokeWidth={1.9} />
-                {a}
+                {t(a)}
               </span>
             ))}
           </div>
         </div>
 
         <div className="mc-block">
-          <span className="mc-title">Connects to</span>
+          <span className="mc-title">{t("Connects to")}</span>
           <div className="mc-links">
             {(connections[sel.name] ?? []).map((n) => (
               <button key={n} type="button" className="mc-link" onClick={() => onSelect(indexOf(n))}>
                 <span className="mc-dot" aria-hidden="true" />
-                {n}
+                {t(n)}
               </button>
             ))}
           </div>
         </div>
 
         <div className="mc-block">
-          <span className="mc-title">Wesprime scope</span>
+          <span className="mc-title">{t("Wesprime scope")}</span>
           <ul className="mc-scope">
-            {scope.map((s) => <li key={s}>{s}</li>)}
+            {scope.map((s) => <li key={s}>{t(s)}</li>)}
           </ul>
         </div>
       </div>
 
       <div className="mc-foot">
-        <a className="btn btn-accent" href={paths.contact}>Discuss this module →</a>
+        <a className="btn btn-accent" href={paths.contact}>{t("Discuss this module")} <span className="arrow" aria-hidden="true">→</span></a>
         <div className="mc-nav">
-          <button type="button" aria-label="Previous module" onClick={() => go(-1)}>
+          <button type="button" aria-label={t("Previous module")} onClick={() => go(-1)}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
           </button>
-          <button type="button" aria-label="Next module" onClick={() => go(1)}>
+          <button type="button" aria-label={t("Next module")} onClick={() => go(1)}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6" /></svg>
           </button>
         </div>

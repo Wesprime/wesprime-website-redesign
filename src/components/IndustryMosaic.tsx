@@ -1,3 +1,4 @@
+import { useT } from '../i18n'
 import { industries, mediaUrl, type Industry } from '../data/saudi'
 import { industryHref } from '../router'
 import { Icon } from './Icon'
@@ -28,6 +29,7 @@ function columns(): [Industry, number][][] {
 }
 
 function Tile({ industry, span }: { industry: Industry; span: number }) {
+  const t = useT()
   return (
     <a className={`ind-tile${industry.image ? '' : ' no-image'}`} style={{ flexGrow: span }} href={industryHref(industry.id)}>
       {industry.image ? (
@@ -37,9 +39,8 @@ function Tile({ industry, span }: { industry: Industry; span: number }) {
       )}
       <span className="ind-tile-plus" aria-hidden="true">+</span>
       <span className="ind-tile-body">
-        <span className="ind-tile-title">{industry.title}</span>
-        <span className="ind-tile-summary">{industry.summary}</span>
-        <span className="ind-tile-cta">Explore industry →</span>
+        <span className="ind-tile-title">{t(industry.title)}</span>
+        <span className="ind-tile-summary">{t(industry.summary)}</span>
       </span>
     </a>
   )

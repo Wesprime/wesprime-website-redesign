@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 
 export type Page =
   | 'home' | 'about' | 'services' | 'service' | 'solutions' | 'industries' | 'industry'
-  | 'cases' | 'faq' | 'contact' | 'resources' | 'guide'
+  | 'cases' | 'faq' | 'contact' | 'careers' | 'blog' | 'post'
 
 export type Route = { page: Page; slug: string }
 
@@ -18,13 +18,21 @@ export const paths = {
   cases: '#/case-studies',
   faq: '#/faq',
   contact: '#/contact',
-  resources: '#/resources',
+  careers: '#/careers',
+  blog: '#/blog',
 }
 
 export const serviceHref = (slug: string) => `#/services/${slug}`
 export const industryHref = (id: string) => `#/industries/${id}`
-export const guideHref = (slug: string) => `#/resources/${slug}`
-export const resourcesHref = paths.resources
+export const postHref = (slug: string) => `#/blog/${slug}`
+/** Contact form with a service (and optionally an implementation package) preselected. */
+export const contactHref = (service: string, pkg?: string) => `#/contact/${service}${pkg ? `/${pkg}` : ''}`
+
+/** The service and package slugs in a "#/contact/<service>/<package>" hash. */
+export function contactContext(hash = window.location.hash) {
+  const [first, service = '', pkg = ''] = hash.replace(/^#\/?/, '').split('/')
+  return first === 'contact' ? { service, pkg } : { service: '', pkg: '' }
+}
 
 // First path segment -> [list page, detail page]
 const segments: Record<string, [Page, Page]> = {
@@ -36,7 +44,8 @@ const segments: Record<string, [Page, Page]> = {
   'case-studies': ['cases', 'cases'],
   faq: ['faq', 'faq'],
   contact: ['contact', 'contact'],
-  resources: ['resources', 'guide'],
+  careers: ['careers', 'careers'],
+  blog: ['blog', 'post'],
 }
 
 // Old single-page anchors (e.g. "#contact") still land on the right page.

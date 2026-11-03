@@ -1,0 +1,99 @@
+/* ---------- Service detail page ---------- */
+.sv-hero { position: relative; overflow: hidden; background: radial-gradient(60% 80% at 85% 20%, rgba(29, 95, 214, .28), transparent 70%), var(--navy); }
+.sv-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(32px, 5vw, 64px); align-items: center; padding-top: 56px; padding-bottom: 64px; }
+.sv-hero-copy { display: flex; flex-direction: column; gap: 18px; }
+.sv-hero-copy > * { animation: rise .8s cubic-bezier(.2, .7, .2, 1) both; }
+.sv-hero-copy > :nth-child(2) { animation-delay: .08s; }
+.sv-hero-copy > :nth-child(3) { animation-delay: .16s; }
+.sv-hero-copy > :nth-child(4) { animation-delay: .24s; }
+.sv-hero-copy > :nth-child(5) { animation-delay: .32s; }
+.sv-hero h1 { font-size: clamp(32px, 3.6vw, 48px); line-height: 1.08; font-weight: 700; letter-spacing: -0.03em; color: #ffffff; }
+.sv-hero .lead { font-size: 18px; }
+.sv-hero .btn-ghost { cursor: pointer; gap: 8px; }
+
+/* The video player */
+.sv-video { margin: 0; border-radius: 18px; overflow: hidden; background: #071226; border: 1px solid #22375A; box-shadow: 0 30px 70px rgba(0, 0, 0, .45); animation: rise .9s .2s cubic-bezier(.2, .7, .2, 1) both; }
+.sv-screen {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+  background: radial-gradient(50% 60% at 50% 45%, rgba(29, 95, 214, .35), transparent 70%), linear-gradient(160deg, #0E2142, #071226);
+}
+.sv-screen::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px); background-size: 22px 22px; }
+.sv-screen.is-paused * { animation-play-state: paused !important; }
+.sv-badge { position: absolute; left: 14px; top: 14px; z-index: 3; display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px; border-radius: 999px; background: rgba(0, 0, 0, .35); color: #DCE8FF; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.sv-badge i { width: 7px; height: 7px; border-radius: 50%; background: #F04438; animation: sv-blink 1.4s ease-in-out infinite; }
+@keyframes sv-blink { 50% { opacity: .25; } }
+.sv-scene { position: absolute; inset: 0 0 44px; }
+.sv-caption { position: absolute; left: 50%; bottom: 14px; z-index: 3; translate: -50% 0; max-width: 90%; padding: 6px 14px; border-radius: 8px; background: rgba(0, 0, 0, .55); color: #ffffff; font-size: 14px; font-weight: 600; text-align: center; animation: sv-cap .6s .2s ease both; }
+@keyframes sv-cap { from { opacity: 0; transform: translateY(8px); } }
+.sv-bigplay { position: absolute; left: 50%; top: 50%; z-index: 4; translate: -50% -50%; width: 72px; height: 72px; border-radius: 50%; border: 0; background: var(--accent); color: #ffffff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 0 10px rgba(29, 95, 214, .25); }
+
+/* Scene 1: scattered tools drift, then pull into the service */
+.sv-bit { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #ffffff; color: #8A6D44; box-shadow: 0 10px 24px rgba(0, 0, 0, .35); animation: sv-gather 3.4s cubic-bezier(.6, 0, .3, 1) both; animation-delay: calc(var(--n) * 80ms); }
+@keyframes sv-gather {
+  0% { opacity: 0; transform: translate(calc(var(--x) * var(--sc, 1)), calc(var(--y) * var(--sc, 1))) scale(.5) rotate(-10deg); }
+  15% { opacity: 1; transform: translate(calc(var(--x) * var(--sc, 1)), calc(var(--y) * var(--sc, 1))) scale(1) rotate(-6deg); }
+  40% { transform: translate(calc(var(--x) * var(--sc, 1) * 1.04), calc(var(--y) * var(--sc, 1) * 1.08)) rotate(6deg); }
+  62% { opacity: 1; transform: translate(calc(var(--x) * var(--sc, 1)), calc(var(--y) * var(--sc, 1))) rotate(-4deg); }
+  100% { opacity: 0; transform: translate(0, 0) scale(.3); }
+}
+.sv-core { position: absolute; left: 50%; top: 50%; width: 96px; height: 96px; margin: -48px 0 0 -48px; border-radius: 26px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1D5FD6, #0B3FA0); color: #ffffff; box-shadow: 0 0 0 10px rgba(111, 163, 255, .15), 0 0 50px rgba(111, 163, 255, .55); animation: sv-pop .7s 3s cubic-bezier(.3, 1.6, .5, 1) both, sv-breathe 2.4s 3.7s ease-in-out infinite; }
+@keyframes sv-pop { from { opacity: 0; transform: scale(.3); } }
+@keyframes sv-breathe { 50% { box-shadow: 0 0 0 18px rgba(111, 163, 255, .08), 0 0 70px rgba(111, 163, 255, .7); } }
+
+/* Scene 2: the Odoo hub and its apps */
+.sv-wires { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sv-wires line { stroke: #6FA3FF; stroke-dasharray: 5 6; vector-effect: non-scaling-stroke; stroke-width: 2; opacity: 0; animation: sv-wire .5s ease both, sv-flow 1.2s linear infinite; animation-delay: calc(var(--n) * 160ms + .5s), 0s; }
+@keyframes sv-wire { to { opacity: .8; } }
+@keyframes sv-flow { to { stroke-dashoffset: -22; } }
+.sv-hub { position: absolute; left: 50%; top: 50%; width: 92px; height: 92px; margin: -46px 0 0 -46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #ffffff; color: #714B67; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; box-shadow: 0 0 0 8px rgba(255, 255, 255, .12), 0 16px 40px rgba(0, 0, 0, .4); animation: sv-pop .6s cubic-bezier(.3, 1.6, .5, 1) both, sv-breathe 2.4s 1s ease-in-out infinite; }
+.sv-app { position: absolute; translate: -50% -50%; padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .25); color: #ffffff; font-size: 13px; font-weight: 700; white-space: nowrap; backdrop-filter: blur(6px); animation: sv-pop .5s cubic-bezier(.3, 1.6, .5, 1) both; animation-delay: calc(var(--n) * 160ms + .7s); }
+
+/* Scene 3: go-live ring and checklist */
+.sv-live { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: clamp(20px, 5%, 44px); padding: 0 24px; }
+.sv-ring { position: relative; width: 130px; height: 130px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.sv-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.sv-ring circle { fill: none; stroke-width: 9; }
+.sv-ring-bg { stroke: rgba(255, 255, 255, .1); }
+.sv-ring-fill { stroke: #A7F3D0; stroke-linecap: round; stroke-dasharray: 327; stroke-dashoffset: 327; animation: sv-ring 2s .3s cubic-bezier(.5, 0, .3, 1) forwards; filter: drop-shadow(0 0 8px rgba(167, 243, 208, .7)); }
+@keyframes sv-ring { to { stroke-dashoffset: 0; } }
+.sv-ring b { color: #ffffff; font-size: 24px; animation: sv-pop .5s 2.2s cubic-bezier(.3, 1.6, .5, 1) both; }
+.sv-live ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.sv-live li { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 10px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14); color: #ffffff; font-size: 14px; font-weight: 600; animation: sv-slide .5s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--n) * 350ms + .8s); }
+.sv-live li span { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #A7F3D0; color: #065F46; font-size: 12px; font-weight: 800; }
+@keyframes sv-slide { from { opacity: 0; transform: translateX(20px); } }
+
+/* Player controls */
+.sv-controls { display: flex; align-items: center; gap: 14px; padding: 10px 14px; border-top: 1px solid #22375A; }
+.sv-ctl { width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .1); color: #ffffff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s ease; }
+.sv-ctl:hover { background: var(--accent); }
+.sv-segs { flex: 1; display: flex; gap: 6px; }
+.sv-segs button { flex: 1; height: 16px; padding: 6px 0; border: 0; background: none; cursor: pointer; }
+.sv-segs button i { display: block; height: 4px; border-radius: 2px; background: #6FA3FF; transform-origin: left; transition: transform .1s linear; }
+.sv-segs button { background: linear-gradient(rgba(255, 255, 255, .15), rgba(255, 255, 255, .15)) center / 100% 4px no-repeat; border-radius: 2px; }
+.sv-time { font-family: var(--mono); font-size: 12px; color: var(--on-dark); white-space: nowrap; }
+
+/* Real video files (ServiceClip) in the same player frame */
+.sv-clip .sv-screen { aspect-ratio: 16 / 9; }
+.sv-clip video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #071226; }
+.sv-clip-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #ffffff; font-size: 14px; font-weight: 600; }
+.sv-clip-muted { display: inline-flex; align-items: center; gap: 6px; }
+
+@media (max-width: 960px) {
+  .sv-hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .sv-hero-grid { padding-top: 36px; padding-bottom: 44px; }
+}
+@media (max-width: 560px) {
+  .sv-screen { aspect-ratio: 4 / 3.4; }
+  .sv-bit { width: 36px; height: 36px; margin: -18px 0 0 -18px; --sc: .6; }
+  .sv-app { font-size: 11px; padding: 6px 10px; }
+  .sv-live { flex-direction: column; gap: 14px; padding-top: 34px; }
+  .sv-ring { width: 92px; height: 92px; }
+  .sv-ring b { font-size: 18px; }
+  .sv-live li { padding: 7px 12px; font-size: 13px; }
+  .sv-caption { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sv-hero-copy > *, .sv-video, .sv-scene *, .sv-caption, .sv-badge i { animation: none !important; }
+  .sv-ring-fill { stroke-dashoffset: 0; }
+  .sv-bit { opacity: 0; }
+}

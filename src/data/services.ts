@@ -33,29 +33,6 @@ export const services: Service[] = [
     ]
   },
   {
-    "slug": "odoo-implementation",
-    "title": "Odoo Implementation",
-    "tagline": "Structured delivery from requirements to a confident go-live.",
-    "icon": "<rect x=\"3\" y=\"3\" width=\"7.5\" height=\"7.5\" rx=\"1.5\"></rect><rect x=\"13.5\" y=\"3\" width=\"7.5\" height=\"7.5\" rx=\"1.5\"></rect><rect x=\"3\" y=\"13.5\" width=\"7.5\" height=\"7.5\" rx=\"1.5\"></rect><path d=\"M17.25 13.5v7.5M13.5 17.25H21\"></path>",
-    "overview": "We implement Odoo in clear stages — gathering requirements, configuring each module, setting up your workflows, testing with your team and supporting you through go-live — so the system reflects how you work from day one.",
-    "included": [
-      "Requirement analysis",
-      "Configuration",
-      "Module implementation",
-      "Workflow setup",
-      "Testing",
-      "Go-live"
-    ],
-    "modules": [
-      "Accounting",
-      "Sales",
-      "Purchase",
-      "Inventory",
-      "HR",
-      "Manufacturing"
-    ]
-  },
-  {
     "slug": "odoo-customization",
     "title": "Odoo Customization",
     "tagline": "Tailor Odoo to the way your business really works.",
@@ -77,21 +54,65 @@ export const services: Service[] = [
     ]
   },
   {
-    "slug": "custom-odoo-development",
-    "title": "Custom Odoo Development",
-    "tagline": "Custom modules and logic built for your requirements.",
-    "icon": "<path d=\"M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16\"></path>",
-    "overview": "When configuration and customization are not enough, we develop new Odoo modules, business logic, dashboards and reports, and connect Odoo to the other applications your business depends on.",
+    "slug": "zatca-e-invoicing",
+    "title": "ZATCA E-Invoicing",
+    "tagline": "Saudi e-invoicing readiness — configured, tested and documented in Odoo.",
+    "icon": "<path d=\"M6 3h9l4 4v14H6z\"></path><path d=\"M15 3v4h4\"></path><path d=\"M9 13l2 2 4-4\"></path><path d=\"M9 18h6\"></path>",
+    "overview": "We configure Odoo's Saudi localization so every standard and simplified invoice is signed, cleared or reported to ZATCA automatically. That includes master data, taxes and exemption codes, onboarding each journal in the Fatoora simulation portal, and taking you to production with confidence.",
     "included": [
-      "Custom modules",
-      "Custom workflows",
-      "Dashboards",
-      "Reports",
-      "Business logic",
-      "Third-party integrations"
+      "Phase 2 readiness review",
+      "Company and customer master data",
+      "VAT and exemption setup",
+      "Fatoora simulation testing",
+      "Production onboarding",
+      "POS and credit note compliance"
     ],
     "modules": [
-      "Any Odoo module"
+      "Accounting",
+      "Invoicing",
+      "Point of Sale"
+    ]
+  },
+  {
+    "slug": "inventory-management",
+    "title": "Inventory Management",
+    "tagline": "Accurate stock across every warehouse, branch and van.",
+    "icon": "<path d=\"M3 7l9-4 9 4-9 4z\"></path><path d=\"M3 7v10l9 4 9-4V7\"></path><path d=\"M12 11v10\"></path>",
+    "overview": "We set up Odoo Inventory around how your goods really move: warehouses and locations, receipt and delivery routes, replenishment rules and barcode scanning. Stock stays linked to purchasing, sales and accounting, so the number on screen matches the shelf.",
+    "included": [
+      "Multi-warehouse setup",
+      "Routes and transfers",
+      "Reordering rules",
+      "Barcode scanning",
+      "Lot and serial tracking",
+      "Inventory valuation"
+    ],
+    "modules": [
+      "Inventory",
+      "Purchase",
+      "Sales",
+      "Barcode"
+    ]
+  },
+  {
+    "slug": "crm",
+    "title": "CRM Implementation",
+    "tagline": "One shared pipeline from first enquiry to signed deal.",
+    "icon": "<path d=\"M3 4h18l-7 8v6l-4 2v-8z\"></path>",
+    "overview": "We implement Odoo CRM so every lead, call and quotation sits in one pipeline your whole sales team can see. Stages, activities and lead scoring are shaped around your sales process, with AI-driven insights where they genuinely help and a direct link to quotations and invoices.",
+    "included": [
+      "Pipeline and stage design",
+      "Lead capture from website and email",
+      "Activities and follow-ups",
+      "Lead scoring and AI insights",
+      "Sales dashboards",
+      "Quotation integration"
+    ],
+    "modules": [
+      "CRM",
+      "Sales",
+      "Email Marketing",
+      "Website"
     ]
   },
   {
@@ -266,13 +287,74 @@ export const services: Service[] = [
     "modules": [
       "ERP-connected"
     ]
+  },
+  {
+    "slug": "erp-health-check",
+    "title": "ERP Health Check & Optimization",
+    "tagline": "Get more from the system you already have — even if someone else implemented it.",
+    "icon": "<path d=\"M3 12h4l2-5 4 10 2-5h6\"></path>",
+    "overview": "Many ERP systems are installed but never quite solve the problem they were bought for. We review how your existing system is configured and used, find why it underperforms, and fix the issues that matter most — ranked by business risk and effort — before retraining your team.",
+    "included": [
+      "Existing-system health assessment",
+      "Stakeholder interviews",
+      "Configuration and report review",
+      "Prioritized issue register",
+      "Targeted fixes and retesting",
+      "Retraining and adoption support"
+    ],
+    "modules": [
+      "Accounting",
+      "Sales",
+      "Purchase",
+      "Inventory"
+    ]
+  },
+  {
+    "slug": "dashboards-reporting",
+    "title": "Dashboards & Business Insights",
+    "tagline": "See sales, cash, stock and profitability in one place.",
+    "icon": "<path d=\"M4 20V11M10 20V5M16 20v-6M22 20H2\"></path>",
+    "overview": "Reports that take days to compile, or don't agree with each other, leave leaders guessing. We agree the KPIs that matter, define where each number comes from, and build dashboards on your business data that are checked against your source reports and shared by role.",
+    "included": [
+      "KPI workshop and definitions",
+      "Data-source review",
+      "Dashboard design",
+      "Validation against source reports",
+      "Role-based access",
+      "Training and refresh schedule"
+    ],
+    "modules": [
+      "Accounting",
+      "Sales",
+      "Inventory",
+      "Spreadsheet"
+    ]
+  },
+  {
+    "slug": "go-live-hypercare",
+    "title": "Go-Live HyperCare",
+    "tagline": "Focused support in the first weeks after go-live.",
+    "icon": "<circle cx=\"12\" cy=\"12\" r=\"9\"></circle><circle cx=\"12\" cy=\"12\" r=\"4\"></circle><path d=\"M5.6 5.6l3.6 3.6M14.8 14.8l3.6 3.6M18.4 5.6l-3.6 3.6M9.2 14.8l-3.6 3.6\"></path>",
+    "overview": "Real transactions reveal edge cases that testing never does. For an agreed period after go-live we log and prioritize issues, check in with key users, watch critical processes and guide people through real work — then hand over formally to ongoing support.",
+    "included": [
+      "Agreed start and end dates",
+      "Go-live issue board",
+      "Priority-based issue handling",
+      "Regular check-ins with key users",
+      "Critical process monitoring",
+      "Handover to ongoing support"
+    ],
+    "modules": [
+      "All implemented modules"
+    ]
   }
 ]
 
+// Services in each menu group, in display order.
 export const serviceGroups = [
-  { title: 'Odoo ERP', slugs: services.slice(0, 4).map((s) => s.slug) },
-  { title: 'Data & Enablement', slugs: services.slice(4, 8).map((s) => s.slug) },
-  { title: 'Digital Solutions', slugs: services.slice(8).map((s) => s.slug) },
+  { title: 'Odoo ERP', slugs: ['erp-consultation', 'odoo-customization', 'zatca-e-invoicing', 'inventory-management', 'crm', 'erp-health-check'] },
+  { title: 'Data & Enablement', slugs: ['data-migration', 'system-integration', 'dashboards-reporting', 'training-enablement', 'go-live-hypercare', 'support-maintenance'] },
+  { title: 'Digital Solutions', slugs: ['web-development', 'software-development', 'business-automation', 'ai-solutions', 'custom-applications'] },
 ]
 
 export const getService = (slug: string) => services.find((s) => s.slug === slug)

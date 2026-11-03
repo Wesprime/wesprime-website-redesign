@@ -1,0 +1,137 @@
+/* ---------- Outcome video (home) ----------
+   One chapter per outcome: "before" chaos for ~3s, then the "after" preview.
+   Base styles are the final state, so reduced motion simply shows the result.
+   The player chrome (.sv-video, .sv-screen, .sv-controls) comes from service.css. */
+.ov-wrap { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr); gap: clamp(24px, 3vw, 44px); align-items: center; }
+.ov-chapters { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ov-chapters li { position: relative; border-radius: 14px; border: 1px solid var(--line); background: #ffffff; overflow: hidden; transition: border-color .25s ease, box-shadow .25s ease; }
+.ov-chapters li.is-on { border-color: var(--blue); box-shadow: 0 14px 30px rgba(29, 95, 214, .12); }
+.ov-chapters button { width: 100%; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 0; background: none; text-align: left; cursor: pointer; color: var(--ink); }
+.ov-ch-icon { width: 38px; height: 38px; flex-shrink: 0; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: var(--blue-soft); color: var(--blue); transition: background .25s ease, color .25s ease; }
+.is-on .ov-ch-icon { background: var(--blue); color: #ffffff; }
+.ov-ch-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ov-ch-text b { font-size: 16px; }
+.ov-ch-text small { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.ov-chapters li:not(.is-on) .ov-ch-text small { display: none; }
+.ov-ch-bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--blue); transform-origin: left; transform: scaleX(0); transition: transform .1s linear; }
+.ov-ch-link { display: block; padding: 0 16px 14px 68px; font-size: 14px; font-weight: 700; }
+
+.ov-video { width: 100%; }
+.ov-scene { position: absolute; inset: 0; }
+.ov-tag { animation: ov-in .4s ease both; }
+.ov-tag-before { animation: ov-out .4s 2.7s ease both; }
+.ov-tag-before i { background: #F79009; }
+.ov-tag-after { animation-delay: 2.9s; }
+.ov-tag-after i { background: #12B76A; animation: none; }
+@keyframes ov-in { from { opacity: 0; transform: translateY(8px); } }
+@keyframes ov-out { to { opacity: 0; transform: translateY(-8px); visibility: hidden; } }
+
+.ov-problem {
+  position: absolute; left: 50%; top: 44%; translate: -50% -50%; width: min(78%, 420px); text-align: center;
+  color: #ffffff; font-size: clamp(16px, 1.6vw, 21px); font-weight: 700; line-height: 1.35; letter-spacing: -0.01em;
+  animation: ov-in .5s .2s ease both, ov-out .4s 2.5s ease forwards;
+}
+.ov-pain {
+  position: absolute; left: var(--x); top: var(--y); translate: -50% -50%; z-index: 2;
+  padding: 7px 12px; border-radius: 10px; white-space: nowrap; font-size: 13px; font-weight: 600;
+  background: #ffffff; color: #7A2E0E; border-left: 3px solid #F79009; box-shadow: 0 10px 24px rgba(0, 0, 0, .35);
+  opacity: 0; animation: ov-pain 3s cubic-bezier(.6, 0, .3, 1) both; animation-delay: calc(var(--n) * 90ms);
+}
+@keyframes ov-pain {
+  0% { opacity: 0; transform: scale(.6) rotate(-8deg); }
+  12% { opacity: 1; transform: scale(1) rotate(-3deg); }
+  32% { transform: translate(4px, -5px) rotate(3deg); }
+  52% { transform: translate(-3px, 4px) rotate(-3deg); }
+  72% { opacity: 1; left: var(--x); top: var(--y); transform: rotate(2deg); }
+  100% { opacity: 0; left: 50%; top: 50%; transform: scale(.3); }
+}
+
+.ov-after {
+  position: absolute; left: 50%; top: 45%; translate: -50% -50%; width: min(86%, 440px);
+  display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 16px; background: #ffffff; color: var(--ink);
+  box-shadow: 0 0 0 8px rgba(111, 163, 255, .14), 0 24px 60px rgba(0, 0, 0, .45);
+  animation: ov-pop .6s 2.9s cubic-bezier(.3, 1.5, .5, 1) both;
+}
+@keyframes ov-pop { from { opacity: 0; transform: scale(.6); } }
+.ov-after-title { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--blue); }
+.ov-gain {
+  position: absolute; left: 50%; bottom: 46px; translate: -50% 0; width: max-content; max-width: 90%;
+  display: flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 10px; background: rgba(0, 0, 0, .5);
+  color: #ffffff; font-size: 14px; font-weight: 600; animation: ov-in .5s 3.5s ease both;
+}
+.ov-gain span { width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #A7F3D0; color: #065F46; font-size: 11px; font-weight: 800; }
+.ov-cta { position: absolute; right: 14px; bottom: 12px; z-index: 3; font-size: 13px; font-weight: 700; color: var(--blue-light); animation: ov-in .5s 3.9s ease both; }
+.ov-cta:hover { color: #ffffff; }
+
+/* After: CRM board, a lead travels New -> Qualified -> Won */
+.ov-crm { position: relative; height: 150px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ov-crm-col { border-radius: 10px; background: var(--tint); padding: 8px; }
+.ov-crm-col i { font-style: normal; font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); }
+.ov-crm-card { position: absolute; top: 28%; width: 30%; display: flex; flex-direction: column; padding: 7px 9px; border-radius: 8px; background: #ffffff; box-shadow: 0 4px 12px rgba(10, 24, 48, .12); font-size: 12px; }
+.ov-crm-card small { font-size: 10px; color: var(--subtle); }
+.ov-crm-card.is-still { animation: ov-in .4s 3.2s ease both; }
+.ov-crm-card.is-moving { left: 68.5%; z-index: 1; border: 1.5px solid var(--blue); animation: ov-travel 2.2s 3.4s cubic-bezier(.5, 0, .3, 1) both; }
+.ov-crm-card.is-moving small { color: #B42318; font-weight: 700; }
+@keyframes ov-travel { 0% { left: 3%; opacity: 0; } 15% { left: 3%; opacity: 1; } 50% { left: 35.5%; } 65% { left: 35.5%; } 100% { left: 68.5%; } }
+
+/* After: order-to-invoice flow lights up node by node */
+.ov-flow { position: relative; display: flex; justify-content: space-between; padding: 22px 4px 8px; }
+.ov-flow-line { position: absolute; left: 10%; right: 10%; top: 38px; height: 3px; border-radius: 2px; background: var(--blue); transform-origin: left; animation: ov-grow 1.6s 3.3s ease both; }
+@keyframes ov-grow { from { transform: scaleX(0); } }
+.ov-flow-node { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; animation: ov-in .4s ease both; animation-delay: calc(var(--n) * 400ms + 3.3s); }
+.ov-flow-node i { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-style: normal; background: var(--blue); color: #ffffff; box-shadow: 0 0 0 5px var(--blue-soft); }
+
+/* After: approval steps tick in, status flips to Approved */
+.ov-steps { display: flex; flex-direction: column; gap: 8px; }
+.ov-step, .ov-fix { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; background: var(--tint); font-size: 13px; font-weight: 600; animation: ov-slide .45s ease both; animation-delay: calc(var(--n) * 450ms + 3.3s); }
+.ov-step i, .ov-fix i { width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 11px; font-weight: 800; background: #12B76A; color: #ffffff; }
+@keyframes ov-slide { from { opacity: 0; transform: translateX(16px); } }
+.ov-status { position: relative; align-self: flex-start; height: 26px; min-width: 96px; }
+.ov-status s, .ov-status b { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; border-radius: 999px; font-size: 12px; font-weight: 700; text-decoration: none; }
+.ov-status s { background: #FEF0C7; color: #7A2E0E; opacity: 0; animation: ov-flash 1.6s 3.2s both; }
+.ov-status b { background: #D1FADF; color: #05603A; animation: ov-in .3s 4.8s ease both; }
+@keyframes ov-flash { 0%, 90% { opacity: 1; } 100% { opacity: 0; } }
+
+/* After: KPI tiles and growing bars */
+.ov-dash { display: flex; flex-direction: column; gap: 10px; }
+.ov-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ov-kpis span { display: flex; flex-direction: column; padding: 8px 10px; border-radius: 8px; background: var(--tint); animation: ov-in .4s ease both; animation-delay: calc(var(--n) * 150ms + 3.2s); }
+.ov-kpis small { font-size: 11px; color: var(--muted); }
+.ov-kpis b { font-size: 15px; }
+.ov-bars { height: 80px; display: flex; align-items: flex-end; gap: 6px; border-bottom: 1px solid var(--line-2); }
+.ov-bars i { flex: 1; border-radius: 4px 4px 0 0; background: var(--blue); transform-origin: bottom; animation: ov-bar .6s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--n) * 120ms + 3.5s); }
+@keyframes ov-bar { from { transform: scaleY(0); } }
+
+/* After: health meter climbs as fixes are ticked */
+.ov-health { display: flex; flex-direction: column; gap: 8px; }
+.ov-meter { height: 10px; border-radius: 5px; background: var(--tint); overflow: hidden; }
+.ov-meter i { display: block; height: 100%; width: 88%; border-radius: 5px; background: #12B76A; animation: ov-meter 1.8s 3.3s ease both; }
+@keyframes ov-meter { from { width: 30%; background: #F04438; } 50% { background: #F79009; } }
+
+/* After: ticket moves New -> Assigned -> Resolved */
+.ov-ticket { display: flex; flex-direction: column; gap: 4px; }
+.ov-ticket b { font-size: 15px; }
+.ov-ticket small { font-size: 12px; color: var(--muted); }
+.ov-ticket-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
+.ov-ticket-steps span { padding: 8px; border-radius: 8px; text-align: center; font-size: 12px; font-weight: 700; background: var(--blue-soft); color: var(--blue-dark); animation: ov-step 1s ease both; animation-delay: calc(var(--n) * 600ms + 3.3s); }
+.ov-ticket-steps span:last-child { background: #D1FADF; color: #05603A; }
+@keyframes ov-step { from { background: var(--tint); color: var(--subtle); } }
+
+@media (max-width: 960px) {
+  .ov-wrap { grid-template-columns: minmax(0, 1fr); }
+  .ov-video { order: -1; }
+}
+@media (max-width: 560px) {
+  .ov-video .sv-screen { aspect-ratio: auto; height: 440px; }
+  .ov-problem { top: 46%; }
+  .ov-pain { font-size: 11px; padding: 5px 9px; }
+  .ov-after { top: 42%; padding: 12px; gap: 8px; }
+  .ov-crm { height: 120px; }
+  .ov-flow-node i { width: 28px; height: 28px; }
+  .ov-gain { bottom: 40px; font-size: 12px; }
+  .ov-cta { display: none; }
+}
+
+/* Reduced motion: no animation, just the result */
+.sv-screen.is-static .ov-scene * { animation: none !important; }
+.sv-screen.is-static :is(.ov-tag-before, .ov-problem, .ov-pain) { display: none; }
