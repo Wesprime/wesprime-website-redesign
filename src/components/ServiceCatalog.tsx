@@ -5,13 +5,6 @@ import { Check, Icon } from './Icon'
 import { useT } from '../i18n'
 import { Headline } from './Headline'
 
-// One line per group, shown in the sticky intro beside its services.
-const groupIntro: Record<string, string> = {
-  'Odoo ERP': 'Plan, implement and tailor Odoo around the way your business runs.',
-  'Data & Enablement': 'Move your data, connect your systems and get every team confident.',
-  'Digital Solutions': 'Websites, software, automation and AI that extend your ERP.',
-}
-
 const total = serviceGroups.reduce((n, g) => n + g.slugs.length, 0)
 
 function EyeIcon({ open }: { open: boolean }) {
@@ -105,7 +98,7 @@ export function ServiceCatalog() {
             <div className="sc-intro">
               <span className="sc-intro-num">{String(g.index + 1).padStart(2, '0')}</span>
               <Headline text={g.title} />
-              <p>{t(groupIntro[g.title])}</p>
+              <p>{t(g.intro)}</p>
               <span className="sc-intro-count">{t('{n} services', { n: g.slugs.length })}</span>
             </div>
             <div className="sc-cards" key={filter}>

@@ -5,7 +5,10 @@ import { Headline } from '../components/Headline'
 import { Hero } from '../components/Hero'
 import { PillarsSection, StandsForSection, TechStackSection } from '../components/HomeExtras'
 import { DemoPreviewSection, OutcomeSection } from '../components/OutcomeBlocks'
+import { IndustryOrbit } from '../components/IndustryOrbit'
+import { AboutHeroArt } from '../components/AboutHeroArt'
 import { PageHero } from '../components/PageHero'
+import { ParticleNetwork } from '../components/SolutionsBackdrop'
 import { ServiceCatalog } from '../components/ServiceCatalog'
 import { AppLauncherSection, DeploySection, EcosystemSection, WhyOdooSection } from '../components/SolutionsBlocks'
 import { contact, whatsappHref } from '../data/content'
@@ -35,11 +38,12 @@ export function Home() {
 export function AboutPage() {
   const t = useT()
   return (
-    <main>
+    <main className="about-page">
       <PageHero
         crumbs={[['About']]}
         title={t("About Wesprime")}
         lead="An Odoo ERP consulting and digital transformation company helping businesses run on connected, intelligent systems."
+        art={<AboutHeroArt />}
       />
       <AboutSection />
       <VisionSection tint />
@@ -74,11 +78,12 @@ export function ServicesPage() {
 export function SolutionsPage() {
   const t = useT()
   return (
-    <main>
+    <main className="sol-page">
       <PageHero
         crumbs={[['Solutions']]}
         title={t("Odoo solutions")}
         lead="One platform for finance, sales, operations, HR and your website — implemented, connected and hosted the way your business needs."
+        art={<ParticleNetwork />}
       />
       <WhyOdooSection />
       <OdooSection tint />
@@ -93,11 +98,12 @@ export function SolutionsPage() {
 export function IndustriesPage() {
   const t = useT()
   return (
-    <main>
+    <main className="industries-page">
       <PageHero
         crumbs={[['Industries']]}
         title={t("Odoo ERP for every industry in Saudi Arabia & the Middle East")}
         lead="We apply our experience across sectors to deliver tailored solutions that support growth — including the Saudi requirements that come with each one."
+        art={<IndustryOrbit />}
       >
         <div className="btn-row">
           <a className="btn btn-accent btn-lg" href={paths.contact}>{t("Talk to Our Experts")}</a>

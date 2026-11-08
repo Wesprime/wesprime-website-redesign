@@ -33,6 +33,19 @@ export function Check() {
   )
 }
 
+/** Official Wesprime emblem (white, for dark backgrounds). */
+export function BrandLogo({ className }: { className?: string }) {
+  return (
+    <img
+      className={className}
+      src={`${import.meta.env.BASE_URL}media/wesprime-emblem-white.png`}
+      alt="Wesprime"
+      width={256}
+      height={256}
+    />
+  )
+}
+
 export function Logo({ size = 36 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">

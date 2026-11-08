@@ -15,7 +15,7 @@ export const outcomes = [
     title: 'Organize operations',
     problem: 'Sales, stock and accounts live in separate tools.',
     gain: 'One connected system from order to invoice.',
-    slug: 'erp-consultation',
+    slug: 'odoo-customization',
     pains: ['stock_count.xlsx', 'Invoice typed twice', 'Which price is right?', 'Month-end: day 9'],
     icon: '<rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/>',
   },

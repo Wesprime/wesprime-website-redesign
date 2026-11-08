@@ -70,13 +70,6 @@ export function Hero() {
             </div>
             <div className="glass-legend"><span>{t('Sales')}</span><span>{t('Stock')}</span><span>{t('Finance')}</span></div>
           </div>
-          <div className="glass glass-flow">
-            <div className="glass-title"><span>{t('Automated workflow')}</span></div>
-            <div className="glass-steps">
-              <span>{t('Quote')}</span><span>{t('Order')}</span><span className="is-on">{t('Invoice')}</span>
-              <i className="glass-dot" />
-            </div>
-          </div>
         </div>
       </div>
 

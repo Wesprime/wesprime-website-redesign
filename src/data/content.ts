@@ -103,14 +103,19 @@ export const faqs = [
 ]
 
 export const serviceOptions = [
-  'ERP Consultation',
-  'ZATCA E-Invoicing',
+  'ExpertDesk',
+  'BusinessSuite',
+  'SalesConnect',
+  'FatooraCare',
   'Inventory Management',
-  'CRM',
-  'Data Migration & Integration',
-  'ERP Health Check',
-  'Dashboards & Reporting',
+  'Insight360',
+  'AutoFlow',
+  'Migration Services',
+  'ManagedCare',
+  'Optimize360',
   'Training & Support',
+  'FinCore+',
+  'CFO Partner Services',
   'Digital Solutions',
 ]
 

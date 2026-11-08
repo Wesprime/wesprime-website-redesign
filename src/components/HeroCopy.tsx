@@ -26,12 +26,8 @@ export function HeroCopy({ lang, duration, onPick }: Props) {
           const Title = on ? 'h1' : 'p'
           return (
             <div key={code} className={`hero-copy hc-${code}${on ? ' is-on' : ''}`} lang={code} dir={dir} aria-hidden={!on} inert={!on}>
-              <div className="hero-badge">
-                <span className="hero-live" aria-hidden="true" />
-                {t('Business technology, made practical')}
-              </div>
-              <Title className="hc-title">{t('We help businesses run smarter')}<br /><span className="hero-hl">{t('and grow with confidence.')}</span></Title>
-              <p className="lead">{t('From sales and connected operations to automation, dashboards and ongoing support — get the right solution for the result you need.')}</p>
+              <Title className="hc-title">{t('Sleep tight.')}<br /><span className="hero-hl">{t('We keep your business running right.')}</span></Title>
+              <p className="lead">{t('Odoo ERP, automation and ongoing support — from one team.')}</p>
               <div className="btn-row">
                 <a className="btn btn-accent btn-lg" href="#outcomes" onClick={(e) => { e.preventDefault(); document.getElementById('outcomes')?.scrollIntoView({ behavior: 'smooth' }) }}>{t('Explore Solutions')}</a>
                 <a className="btn btn-ghost btn-lg" href={paths.contact}>{t('Request a Discovery Call')} <span className="arrow" aria-hidden="true">→</span></a>

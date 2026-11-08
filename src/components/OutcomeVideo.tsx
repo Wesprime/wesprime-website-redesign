@@ -35,7 +35,7 @@ function After({ slug }: { slug: string }) {
         <span className="ov-crm-card is-still" style={{ left: '36%', top: '64%' }}><b>Summit</b><small>{t('Follow up Mon')}</small></span>
       </div>
     ),
-    'erp-consultation': (
+    'odoo-customization': (
       <div className="ov-flow">
         <span className="ov-flow-line" />
         {['Quote', 'Order', 'Delivery', 'Invoice'].map((s, i) => (

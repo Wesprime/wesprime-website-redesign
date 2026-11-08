@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Headline } from '../components/Headline'
 import { Check, Icon } from '../components/Icon'
+import { CareersHeroArt } from '../components/CareersHeroArt'
 import { PageHero } from '../components/PageHero'
 import { careersEmail, hiringSteps, jobs, jobTeams, perks, type Job } from '../data/careers'
 import { useT } from '../i18n'
@@ -15,11 +16,12 @@ export function CareersPage() {
   const shown = jobs.filter((j) => team === 'All' || j.team === team)
 
   return (
-    <main>
+    <main className="careers-page">
       <PageHero
         crumbs={[['Careers']]}
         title="Build the systems businesses run on"
         lead="Join a team of Odoo developers and consultants helping Saudi businesses work smarter."
+        art={<CareersHeroArt />}
       >
         <div className="careers-actions">
           <button type="button" className="btn btn-accent btn-lg" onClick={() => document.getElementById('open-roles')?.scrollIntoView({ behavior: 'smooth' })}>

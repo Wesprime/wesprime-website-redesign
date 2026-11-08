@@ -3,7 +3,7 @@ import { contact } from '../data/content'
 import { getService, serviceGroups } from '../data/services'
 import { paths, serviceHref } from '../router'
 import { useT } from '../i18n'
-import { Icon, Logo } from './Icon'
+import { BrandLogo, Icon } from './Icon'
 
 // Pages after "Services" in the menu. The desktop bar leaves out the ones
 // marked mobileOnly to stay on one line; the logo is the link home.
@@ -52,8 +52,8 @@ export function Header({ activeHref }: { activeHref?: string }) {
     <header className="site-header">
       <div className="container header-inner">
         <a href={paths.home} className="brand" aria-label={t('Wesprime home')}>
-          <Logo />
-          <span>wesprime</span>
+          <BrandLogo className="brand-logo" />
+          <span>Wesprime</span>
         </a>
 
         <nav className="main-nav" aria-label={t('Main')}>
@@ -70,41 +70,37 @@ export function Header({ activeHref }: { activeHref?: string }) {
             </button>
             {megaOpen && (
               <div id="mega-menu" className="mega panel">
-                <div className="mega-body">
-                  {/* Categories on the left; pointing at one shows only its services. */}
-                  <div className="mega-groups" style={{ '--i': group } as CSSProperties}>
-                    <span className="mega-glow" aria-hidden="true" />
-                    {serviceGroups.map((g, n) => (
-                      <button
-                        key={g.title}
-                        type="button"
-                        className={n === group ? 'is-on' : ''}
-                        aria-pressed={n === group}
-                        onMouseEnter={() => setGroup(n)}
-                        onFocus={() => setGroup(n)}
-                        onClick={() => setGroup(n)}
-                      >
-                        {t(g.title)}
-                        <span className="mega-count">{g.slugs.length}</span>
-                      </button>
-                    ))}
-                  </div>
-                  <div className="mega-items" key={group}>
-                    {serviceGroups[group].slugs.map((slug, n) => {
-                      const s = getService(slug)!
-                      return (
-                        <a key={slug} className="mm-tile" href={serviceHref(slug)} style={{ '--n': n } as CSSProperties}>
-                          <span className="mm-icon"><Icon markup={s.icon} size={18} strokeWidth={1.8} /></span>
-                          <span className="mm-title">{t(s.title)}</span>
-                          <span className="mm-arrow" aria-hidden="true">→</span>
-                        </a>
-                      )
-                    })}
-                  </div>
+                {/* Categories on the left; pointing at one shows only its services. */}
+                <div className="mega-groups" style={{ '--i': group } as CSSProperties}>
+                  <span className="mega-glow" aria-hidden="true" />
+                  {serviceGroups.map((g, n) => (
+                    <button
+                      key={g.title}
+                      type="button"
+                      className={n === group ? 'is-on' : ''}
+                      aria-pressed={n === group}
+                      onMouseEnter={() => setGroup(n)}
+                      onFocus={() => setGroup(n)}
+                      onClick={() => setGroup(n)}
+                    >
+                      <span className="mega-gicon"><Icon markup={g.icon} size={16} strokeWidth={1.9} /></span>
+                      {t(g.title)}
+                    </button>
+                  ))}
                 </div>
-                <div className="mega-foot">
-                  <span>{t("Not sure which service fits? We'll help you decide.")}</span>
-                  <a href={paths.services}>{t('View all services →')}</a>
+
+                <div className="mega-main" key={group}>
+                  {serviceGroups[group].slugs.map((slug, n) => {
+                    const s = getService(slug)!
+                    return (
+                      <a key={slug} className="mm-tile" href={serviceHref(slug)} style={{ '--n': n } as CSSProperties}>
+                        <span className="mm-icon"><Icon markup={s.icon} size={17} strokeWidth={1.8} /></span>
+                        <span className="mm-title">{t(s.title)}</span>
+                        <span className="mm-arrow" aria-hidden="true">→</span>
+                      </a>
+                    )
+                  })}
+                  <a className="mega-all" href={paths.services}>{t('View all services')} <span aria-hidden="true">→</span></a>
                 </div>
               </div>
             )}
@@ -126,7 +122,7 @@ export function Header({ activeHref }: { activeHref?: string }) {
       {mobileOpen && (
         <div className="mobile-menu" role="dialog" aria-modal="true" aria-label={t('Menu')}>
           <div className="mobile-menu-top">
-            <span className="brand"><Logo size={30} /><span>wesprime</span></span>
+            <span className="brand"><BrandLogo className="brand-logo" /><span>Wesprime</span></span>
             <button type="button" className="icon-btn" aria-label={t('Close menu')} onClick={() => setMobileOpen(false)}>×</button>
           </div>
           <nav className="mobile-nav" aria-label={t('Mobile')}>

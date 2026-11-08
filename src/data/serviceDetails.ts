@@ -25,52 +25,53 @@ export type ServiceDetail = {
 export const serviceDetails: Record<string, ServiceDetail> = {
   'erp-consultation': {
     problems: [
-      'You know something is inefficient, but not whether the answer is a new system, better configuration, automation or training.',
-      'Every vendor pitches software before anyone has looked at how you actually work.',
-      'Requirements live in people\'s heads, so quotes are hard to compare.',
+      "You know something is inefficient, but not whether the answer is a new system, better configuration, automation or training.",
+      "Every vendor pitches software before anyone has looked at how you actually work.",
+      "Requirements live in people's heads, so quotes are hard to compare.",
     ],
     outcomes: [
-      'An objective view of root causes before you invest',
-      'Documented processes, controls and system gaps',
-      'A prioritized roadmap with options, dependencies and risks',
-      'Clear requirements you can take to any provider',
+      "An objective view of root causes before you invest",
+      "Documented processes, controls and system gaps",
+      "A prioritized roadmap with options, dependencies and risks",
+      "Clear requirements you can take to any provider",
     ],
-    fit: 'Businesses facing confusing technology choices, fragmented reports or unclear ERP requirements — before or instead of a new implementation.',
+    fit: "Businesses facing confusing technology choices, fragmented reports or unclear ERP requirements — before or instead of a new implementation.",
     boundaries: [
-      'Advice is about processes and systems. Tax and legal questions are referred to appropriately licensed specialists.',
-      'Packages are Wesprime implementation scopes, not Odoo licence tiers. Licences, hosting and data migration are quoted separately, and no package includes unlimited apps or development.',
+      "ExpertDesk diagnoses and advises. It is separate from outsourced bookkeeping (FinCore+) and fractional CFO work (CFO Partner Services). Tax and legal questions are referred to appropriately licensed specialists.",
     ],
     faqs: [
-      ['Do we have to buy Odoo after the consultation?', 'No. The roadmap is yours. Sometimes the right answer is reconfiguring what you have or training your team.'],
-      ['What do we receive at the end?', 'A written summary of current processes, the gaps we found, recommended options and a prioritized next-step plan.'],
-      ['Which package is right for us?', 'Use the package guide on this page as a starting point. We confirm the right fit after discovery — a small company with complex integrations may still need a larger scope.'],
+      ["Do we have to buy Odoo after the consultation?", "No. The roadmap is yours. Sometimes the right answer is reconfiguring what you have or training your team."],
+      ["What do we receive at the end?", "A written summary of current processes, the gaps we found, recommended options and a prioritized next-step plan."],
     ],
-    related: ['odoo-customization', 'erp-health-check', 'data-migration'],
-    cta: 'Book an ERP Fit Assessment',
-    demo: 'packages',
+    related: ['odoo-customization', 'erp-health-check', 'fincore-plus'],
+    cta: "Book an ExpertDesk Consultation",
     video: 'consultation-ai.mp4',
   },
   'odoo-customization': {
     problems: [
-      'Standard screens don\'t match the way your team actually works.',
-      'Approvals happen over chat because the system has no step for them.',
-      'Documents and reports need manual rework before they can be sent.',
+      "Accounting, purchasing, sales and inventory teams work in separate systems.",
+      "The same data is entered again and again, creating errors.",
+      "Reports arrive late and nobody fully trusts them.",
     ],
     outcomes: [
-      'Workflows, forms and approvals that match your real process',
-      'Documents and reports that go out without manual edits',
-      'Users only see what their role needs',
+      "A clear flow from enquiry and transaction to fulfilment and reporting",
+      "Less duplicated entry where processes are connected",
+      "Management reports and controls suited to each role",
+      "An upgrade path as volume and complexity grow",
     ],
-    fit: 'Businesses already on Odoo, or implementing it, whose rules go beyond standard configuration.',
+    fit: "Businesses moving away from disconnected spreadsheets, legacy tools or an underused ERP — from startups to multi-department organizations.",
     boundaries: [
-      'Every change is agreed and tested against your processes first. We prefer configuration over code where it does the job.',
+      "Prime, Pro, Pro+ and Enterprise are Wesprime implementation scopes, not Odoo licence tiers. Enterprise is our premium delivery tier, not automatically Odoo Enterprise edition.",
+      "Licences, hosting and data migration are quoted separately, and no package includes unlimited apps, development or migrations without a signed scope.",
     ],
     faqs: [
-      ['Will customization make upgrades harder?', 'Heavier customization can add upgrade effort, which is why we keep changes as light as possible and document every one.'],
-      ['Can you change a system another partner built?', 'Yes, after reviewing it. An ERP Health Check is often the best first step.'],
+      ["Which package is right for us?", "Use the package guide on this page as a starting point. We confirm the right fit after discovery — a small company with complex integrations may still need a larger scope."],
+      ["Will customization make upgrades harder?", "Heavier customization can add upgrade effort, which is why we keep changes as light as possible and document every one."],
+      ["Can you change a system another partner built?", "Yes, after reviewing it. An Optimize360 review is often the best first step."],
     ],
-    related: ['system-integration', 'business-automation', 'erp-health-check'],
-    cta: 'Discuss Your Requirements',
+    related: ['zatca-e-invoicing', 'data-migration', 'go-live-hypercare'],
+    cta: "Book an ERP Fit Assessment",
+    demo: 'packages',
     video: 'customization.mp4',
   },
   'zatca-e-invoicing': {
@@ -336,6 +337,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
     ],
     related: ['crm', 'custom-applications', 'business-automation'],
     cta: 'Explore Digital Experiences',
+    video: 'digitalpresence.mp4',
   },
   'software-development': {
     problems: [
@@ -381,6 +383,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
     ],
     related: ['crm', 'odoo-customization', 'erp-consultation'],
     cta: 'Discuss an Automation Pilot',
+    video: 'autoflow.mp4',
   },
   'ai-solutions': {
     problems: [
@@ -403,6 +406,7 @@ export const serviceDetails: Record<string, ServiceDetail> = {
     ],
     related: ['crm', 'dashboards-reporting', 'business-automation'],
     cta: 'Talk to an Expert',
+    video: 'ai-solutions.mp4',
   },
   'custom-applications': {
     problems: [
@@ -425,6 +429,57 @@ export const serviceDetails: Record<string, ServiceDetail> = {
     ],
     related: ['software-development', 'web-development', 'system-integration'],
     cta: 'Discuss Your App Idea',
+    video: 'custom-applications.mp4',
+  },
+  'fincore-plus': {
+    problems: [
+      "Bookkeeping is months behind, so nobody knows the real numbers.",
+      "Bank, customer and supplier accounts are not reconciled.",
+      "Management reports are late or unreliable.",
+    ],
+    outcomes: [
+      "Books kept up to date within the agreed monthly cadence",
+      "Clear reconciliations and receivables and payables status",
+      "A monthly management pack with documented control checks",
+      "Records kept ready for VAT, Zakat and audit reviews",
+    ],
+    fit: "Startups and SMEs without a consistent accounting function, or wanting professional support alongside their existing team.",
+    boundaries: [
+      "FinCore+ covers bookkeeping and finance operations. It is separate from ExpertDesk advisory, CFO Partner Services and statutory audit.",
+      "Audit opinions are issued by independent licensed auditors, and tax positions, filings and representation are handled with appropriately licensed specialists.",
+    ],
+    faqs: [
+      ["Do we need to be on Odoo?", "We work best in Odoo and can set Odoo Accounting up for you. If you use another system, we discuss options first."],
+      ["How do we send documents?", "Bills and receipts can be uploaded or emailed straight into Odoo, where we process them."],
+      ["Do you perform the statutory audit?", "No. The audit opinion comes from an independent licensed auditor. We keep your records and supporting schedules ready for it."],
+    ],
+    related: ['cfo-partner', 'dashboards-reporting', 'zatca-e-invoicing'],
+    cta: "Discuss Outsourced Accounting",
+    video: 'odoo-bookkeeping-accounting.mp4',
+  },
+  'cfo-partner': {
+    problems: [
+      "Big decisions are made without a clear view of cash or margins.",
+      "There is no budget, or nobody tracks it.",
+      "Banks and investors ask for numbers you can't produce quickly.",
+    ],
+    outcomes: [
+      "A management-level view of performance and cash runway",
+      "Budgets and scenarios you actually use",
+      "Structured finance reviews with clear action owners",
+      "Reports ready for banks, investors and the board",
+    ],
+    fit: "Startups and SMEs that need budgeting, cash discipline, financial controls and a senior finance viewpoint, without a full-time CFO.",
+    boundaries: [
+      "CFO Partner Services is strategic advisory and management reporting. It is not statutory audit, regulated financial advice, tax representation or an assurance opinion.",
+    ],
+    faqs: [
+      ["How much time does a CFO spend with us?", "It depends on your needs — typically a few days a month, plus a monthly review meeting."],
+      ["How is this different from accounting?", "FinCore+ keeps your books accurate. CFO Partner Services uses those numbers to plan ahead and guide decisions."],
+    ],
+    related: ['fincore-plus', 'dashboards-reporting', 'erp-consultation'],
+    cta: "Discuss Fractional CFO Support",
+    video: 'cfo-services.mp4',
   },
 }
 

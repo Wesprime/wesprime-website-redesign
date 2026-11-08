@@ -10,14 +10,17 @@ type Props = {
   lead?: string
   /** Optional background photo URL */
   image?: string
+  /** Optional decorative layer drawn behind the text */
+  art?: ReactNode
   children?: ReactNode
 }
 
-export function PageHero({ crumbs, title, lead, image, children }: Props) {
+export function PageHero({ crumbs, title, lead, image, art, children }: Props) {
   const t = useT()
   return (
     <section className={`svc-hero dark page-hero${image ? ' has-image' : ''}`}>
       {image && <img className="page-hero-img" src={image} alt="" />}
+      {art}
       <svg className="svc-hero-lines" viewBox="0 0 700 380" fill="none" aria-hidden="true">
         <line className="flow" x1="80" y1="380" x2="420" y2="60" stroke="#2C4A7A" />
         <line className="flow" x1="300" y1="0" x2="700" y2="260" stroke="#2C4A7A" />

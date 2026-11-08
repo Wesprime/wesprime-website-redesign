@@ -3,6 +3,7 @@ import { companySizes, contact, serviceOptions, whatsappHref } from '../data/con
 import { packages } from '../data/outcomes'
 import { getService } from '../data/services'
 import { contactContext, paths, serviceHref } from '../router'
+import { CountrySelect } from './CountrySelect'
 import { Icon, WhatsAppIcon } from './Icon'
 import { useT } from '../i18n'
 import { Headline } from './Headline'
@@ -26,18 +27,23 @@ const yearOptions = ['Less than 1 year', '1–3 years', '3–5 years', '5–10 y
 
 // The service page each form option's quick summary (points and modules) comes from.
 const optionInfo: Record<string, { slug: string; tagline?: string; points?: string[]; modules?: string[] }> = {
-  'ERP Consultation': { slug: 'erp-consultation' },
-  'ZATCA E-Invoicing': { slug: 'zatca-e-invoicing' },
+  ExpertDesk: { slug: 'erp-consultation' },
+  BusinessSuite: { slug: 'odoo-customization' },
+  SalesConnect: { slug: 'crm' },
+  FatooraCare: { slug: 'zatca-e-invoicing' },
   'Inventory Management': { slug: 'inventory-management' },
-  CRM: { slug: 'crm' },
-  'Data Migration & Integration': { slug: 'data-migration' },
-  'ERP Health Check': { slug: 'erp-health-check' },
-  'Dashboards & Reporting': { slug: 'dashboards-reporting' },
+  Insight360: { slug: 'dashboards-reporting' },
+  AutoFlow: { slug: 'business-automation' },
+  'Migration Services': { slug: 'data-migration' },
+  ManagedCare: { slug: 'support-maintenance' },
+  Optimize360: { slug: 'erp-health-check' },
   'Training & Support': { slug: 'training-enablement' },
+  'FinCore+': { slug: 'fincore-plus' },
+  'CFO Partner Services': { slug: 'cfo-partner' },
   'Digital Solutions': {
     slug: 'custom-applications',
-    tagline: 'Websites, software, automation and AI that extend your ERP.',
-    points: ['Web Development', 'Software Development', 'Business Automation', 'AI Solutions'],
+    tagline: 'Websites, software and AI that extend your business systems.',
+    points: ['DigitalPresence', 'Software Development', 'Custom Applications', 'AI Solutions'],
     modules: ['Website', 'eCommerce', 'Studio', 'Discuss'],
   },
 }
@@ -45,12 +51,10 @@ const optionInfo: Record<string, { slug: string; tagline?: string; points?: stri
 // Service page slug -> form option, so "#/contact/<slug>" arrives with the service picked.
 const optionBySlug: Record<string, string> = {
   ...Object.fromEntries(Object.entries(optionInfo).filter(([o]) => o !== 'Digital Solutions').map(([o, i]) => [i.slug, o])),
-  'system-integration': 'Data Migration & Integration',
+  'system-integration': 'Migration Services',
   'go-live-hypercare': 'Training & Support',
-  'support-maintenance': 'Training & Support',
   'web-development': 'Digital Solutions',
   'software-development': 'Digital Solutions',
-  'business-automation': 'Digital Solutions',
   'ai-solutions': 'Digital Solutions',
   'custom-applications': 'Digital Solutions',
 }
@@ -336,7 +340,7 @@ export function ContactPanel() {
                   {field('email', { type: 'email', autoComplete: 'email', inputMode: 'email' })}
                   {field('phone', { type: 'tel', autoComplete: 'tel', inputMode: 'tel' })}
                 </div>
-                {field('country', { autoComplete: 'country-name' })}
+                <CountrySelect value={fields.country} onChange={pick('country')} label={t(labels.country)} />
               </div>
             </fieldset>
 

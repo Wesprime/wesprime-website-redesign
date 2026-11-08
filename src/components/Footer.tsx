@@ -1,7 +1,7 @@
 import { contact, whatsappHref } from '../data/content'
 import { paths, serviceHref } from '../router'
 import { useT } from '../i18n'
-import { Logo, WhatsAppIcon } from './Icon'
+import { BrandLogo, WhatsAppIcon } from './Icon'
 
 const year = new Date().getFullYear()
 
@@ -9,11 +9,11 @@ const columns: { title: string; links: [string, string][] }[] = [
   {
     title: 'Services',
     links: [
-      ['ERP Consultation', serviceHref('erp-consultation')],
-      ['Odoo Customization', serviceHref('odoo-customization')],
-      ['ZATCA E-Invoicing', serviceHref('zatca-e-invoicing')],
-      ['Data Migration', serviceHref('data-migration')],
-      ['System Integration', serviceHref('system-integration')],
+      ['SalesConnect', serviceHref('crm')],
+      ['BusinessSuite', serviceHref('odoo-customization')],
+      ['FatooraCare', serviceHref('zatca-e-invoicing')],
+      ['Migration Services', serviceHref('data-migration')],
+      ['ManagedCare', serviceHref('support-maintenance')],
       ['Training & Support', serviceHref('training-enablement')],
     ],
   },
@@ -21,11 +21,11 @@ const columns: { title: string; links: [string, string][] }[] = [
     title: 'Solutions',
     links: [
       ['Odoo ERP', paths.solutions],
-      ['Business Automation', serviceHref('business-automation')],
-      ['AI Solutions', serviceHref('ai-solutions')],
-      ['Custom Software', serviceHref('software-development')],
+      ['AutoFlow', serviceHref('business-automation')],
+      ['Insight360', serviceHref('dashboards-reporting')],
+      ['FinCore+', serviceHref('fincore-plus')],
       ['Industries', paths.industries],
-      ['ZATCA E-Invoicing', serviceHref('zatca-e-invoicing')],
+      ['CFO Partner Services', serviceHref('cfo-partner')],
     ],
   },
   {
@@ -55,8 +55,8 @@ export function Footer() {
         <div className="footer-top">
           <div className="footer-about">
             <a className="footer-logo" href={paths.home} aria-label={t('Wesprime home')}>
-              <Logo />
-              <span>wesprime</span>
+              <BrandLogo className="footer-logo-img" />
+              <span>Wesprime</span>
             </a>
             <p>{t('Odoo ERP consulting and digital transformation — from process analysis to long-term support.')}</p>
             <div className="footer-contact">
