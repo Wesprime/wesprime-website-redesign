@@ -1,6 +1,7 @@
 import { useEffect, useId, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react'
 import { companySizes, contact, serviceOptions, whatsappHref } from '../data/content'
 import { packages } from '../data/outcomes'
+import { sendEnquiry } from '../data/sendEnquiry'
 import { getService } from '../data/services'
 import { contactContext, paths, serviceHref } from '../router'
 import { CountrySelect } from './CountrySelect'
@@ -193,7 +194,8 @@ export function ContactPanel() {
   const id = useId()
   const [fields, setFields] = useState<Fields>(initialFields)
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({})
-  const [sent, setSent] = useState<'email' | 'whatsapp' | null>(null)
+  const [sent, setSent] = useState<'direct' | 'email' | 'whatsapp' | null>(null)
+  const [sending, setSending] = useState(false)
 
   const set = (k: keyof Fields) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFields((f) => ({ ...f, [k]: e.target.value }))
@@ -220,10 +222,18 @@ export function ContactPanel() {
       .concat(['', fields.message.trim()])
       .join('\n')
 
-  const sendEmail = (e: FormEvent) => {
+  const sendEmail = async (e: FormEvent) => {
     e.preventDefault()
-    if (!validate()) return
+    if (!validate() || sending) return
     const subject = `Website enquiry: ${fields.service || 'General'} — ${fields.company || fields.name}`
+    // Send straight to the inbox; if that is not set up or fails, open the visitor's email app instead.
+    setSending(true)
+    const ok = await sendEnquiry({ subject, name: fields.name.trim(), email: fields.email.trim(), message: summary() })
+    setSending(false)
+    if (ok) {
+      setSent('direct')
+      return
+    }
     window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(summary())}`
     setSent('email')
   }
@@ -297,12 +307,16 @@ export function ContactPanel() {
           <div className="cp-sent" role="status">
             <span className="cp-sent-icon" aria-hidden="true">✓</span>
             <h3>{fields.name.trim() ? t('Thank you, {name}!', { name: fields.name.trim() }) : t('Thank you!')}</h3>
-            <p>
-              {sent === 'email'
-                ? t('Your email app should now be open with your enquiry filled in — just press send.')
-                : t('WhatsApp should now be open with your enquiry filled in — just press send.')}
-              {' '}{t('If nothing opened, write to')} <a href={`mailto:${contact.email}`}>{contact.email}</a>.
-            </p>
+            {sent === 'direct' ? (
+              <p>{t("We've received your enquiry. Our team will get back to you soon.")}</p>
+            ) : (
+              <p>
+                {sent === 'email'
+                  ? t('Your email app should now be open with your enquiry filled in — just press send.')
+                  : t('WhatsApp should now be open with your enquiry filled in — just press send.')}
+                {' '}{t('If nothing opened, write to')} <a href={`mailto:${contact.email}`}>{contact.email}</a>.
+              </p>
+            )}
             <button type="button" className="btn btn-accent btn-lg cp-submit" onClick={reset}>{t("Start a new enquiry")}</button>
           </div>
         ) : (
@@ -373,7 +387,7 @@ export function ContactPanel() {
             </fieldset>
 
             <div className="cp-actions">
-              <button type="submit" className="btn btn-accent btn-lg cp-submit">{icons.send} {t("Send enquiry")}</button>
+              <button type="submit" className="btn btn-accent btn-lg cp-submit" disabled={sending} aria-busy={sending}>{icons.send} {sending ? t('Sending…') : t("Send enquiry")}</button>
               <button type="button" className="btn btn-dark btn-lg cp-wa" onClick={sendWhatsApp}><span className="cp-wa-icon" aria-hidden="true"><WhatsAppIcon /></span> {t("Send via WhatsApp")}</button>
             </div>
             <p className="cp-fine">{t("Sending opens your email app (or WhatsApp) with the details filled in. Your details are shared only with Wesprime.")}</p>

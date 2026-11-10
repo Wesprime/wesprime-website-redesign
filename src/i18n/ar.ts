@@ -1029,4 +1029,7 @@ export const ar: Record<string, string> = {
   "Odoo ERP, automation and ongoing support — from one team.": "نظام أودو ERP والأتمتة والدعم المستمر — من فريق واحد.",
   "One team · two countries": "فريق واحد · دولتان",
   "Configured, tested & ready": "مُعدّ ومُختبر وجاهز",
+  "We've received your enquiry. Our team will get back to you soon.": "لقد استلمنا استفسارك. سيتواصل معك فريقنا قريبًا.",
+  "We've received your message. Our team will get back to you soon.": "لقد استلمنا رسالتك. سيتواصل معك فريقنا قريبًا.",
+  "Sending…": "جارٍ الإرسال…",
 }

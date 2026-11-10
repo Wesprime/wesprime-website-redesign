@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { contact, whatsappHref } from '../data/content'
+import { sendEnquiry } from '../data/sendEnquiry'
 import { CountryPicker } from './CountryPicker'
 import { WhatsAppIcon } from './Icon'
 import { useT } from '../i18n'
@@ -39,6 +40,8 @@ export function ChatWidget() {
   const [open, setOpen] = useState(false)
   const [greeting, setGreeting] = useState(false)
   const [sent, setSent] = useState<string | null>(null)
+  const [delivered, setDelivered] = useState(false)
+  const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
   const [country, setCountry] = useState({ iso: 'SA', code: '+966' })
   const formRef = useRef<HTMLFormElement>(null)
@@ -83,6 +86,7 @@ export function ChatWidget() {
     const phone = get('phone') ? `${get('code')} ${get('phone')}` : ''
     return {
       name: get('name'),
+      email: get('email'),
       valid: get('name') && (get('phone') || get('email')) && get('message'),
       // Greeting, message and contact details as separate paragraphs.
       text: [
@@ -93,21 +97,28 @@ export function ChatWidget() {
     }
   }
 
-  const submit = (via: 'whatsapp' | 'email') => (e?: FormEvent) => {
+  const submit = (via: 'whatsapp' | 'email') => async (e?: FormEvent) => {
     e?.preventDefault()
     const form = formRef.current
-    if (!form) return
+    if (!form || sending) return
     const msg = compose(form)
     if (!msg.valid) {
       setError('Please add your name, a phone number or email, and a short message.')
       return
     }
     setError('')
+    let ok = false
     if (via === 'whatsapp') {
       window.open(`${whatsappHref}?text=${encodeURIComponent(msg.text)}`, '_blank', 'noopener')
     } else {
-      window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(`Website enquiry from ${msg.name}`)}&body=${encodeURIComponent(msg.text)}`
+      // Send straight to the inbox; if that is not set up or fails, open the visitor's email app instead.
+      const subject = `Website enquiry from ${msg.name}`
+      setSending(true)
+      ok = await sendEnquiry({ subject, name: msg.name, email: msg.email, message: msg.text })
+      setSending(false)
+      if (!ok) window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(msg.text)}`
     }
+    setDelivered(ok)
     setSent(msg.name)
     form.reset()
   }
@@ -153,7 +164,9 @@ export function ChatWidget() {
               <div className="chat-card chat-sent" role="status">
                 <span className="chat-sent-icon" aria-hidden="true">✓</span>
                 <b>{t('Thank you, {name}!', { name: sent })}</b>
-                <p>{t("Your message is ready to send. If nothing opened, contact us at")} <a href={`mailto:${contact.email}`}>{contact.email}</a> {t("or")} <a href={contact.phoneHref}>{contact.phone}</a>.</p>
+                {delivered
+                  ? <p>{t("We've received your message. Our team will get back to you soon.")}</p>
+                  : <p>{t("Your message is ready to send. If nothing opened, contact us at")} <a href={`mailto:${contact.email}`}>{contact.email}</a> {t("or")} <a href={contact.phoneHref}>{contact.phone}</a>.</p>}
                 <button type="button" className="chat-start" onClick={() => setSent(null)}>{t("Send another message")}</button>
               </div>
             ) : (
@@ -173,7 +186,7 @@ export function ChatWidget() {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
                   {t("Start Chat")}
                 </button>
-                <button type="button" className="chat-alt" onClick={() => submit('email')()}>{t("or send by email")}</button>
+                <button type="button" className="chat-alt" disabled={sending} onClick={() => submit('email')()}>{sending ? t('Sending…') : t("or send by email")}</button>
               </form>
             )}
           </div>

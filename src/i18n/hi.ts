@@ -1029,4 +1029,7 @@ export const hi: Record<string, string> = {
   "Odoo ERP, automation and ongoing support — from one team.": "Odoo ERP, ऑटोमेशन और निरंतर सहायता — एक ही टीम से।",
   "One team · two countries": "एक टीम · दो देश",
   "Configured, tested & ready": "कॉन्फ़िगर, परीक्षित और तैयार",
+  "We've received your enquiry. Our team will get back to you soon.": "हमें आपकी पूछताछ मिल गई है। हमारी टीम जल्द ही आपसे संपर्क करेगी।",
+  "We've received your message. Our team will get back to you soon.": "हमें आपका संदेश मिल गया है। हमारी टीम जल्द ही आपसे संपर्क करेगी।",
+  "Sending…": "भेजा जा रहा है…",
 }
