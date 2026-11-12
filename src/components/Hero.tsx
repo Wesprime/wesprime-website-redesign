@@ -1,17 +1,30 @@
-import { useEffect, useRef, useState, type PointerEvent } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
 import { languages, makeT, useT, type Lang } from '../i18n'
 import { mediaUrl } from '../data/saudi'
 import { HeroCopy } from './HeroCopy'
 
 const bars = [38, 52, 44, 68, 58, 82, 74]
 
+// Animated light over the background scene, placed with a fixed pseudo-random step so it never jumps between renders.
+const spread = (i: number, k: number) => ((i * k) % 89) / 89
+const packets = Array.from({ length: 9 }, (_, i) => ({
+  left: `${42 + spread(i, 31) * 50}%`, top: `${12 + spread(i, 47) * 72}%`,
+  '--dur': `${3.5 + spread(i, 19) * 3}s`, '--delay': `${-spread(i, 61) * 6}s`,
+}) as CSSProperties)
+const sparks = Array.from({ length: 18 }, (_, i) => ({
+  left: `${38 + spread(i, 37) * 60}%`, top: `${6 + spread(i, 53) * 86}%`,
+  '--dur': `${2 + spread(i, 23) * 3}s`, '--delay': `${-spread(i, 71) * 4}s`,
+}) as CSSProperties)
+
 // Each hero language stays on screen this long before the next one (EN → AR → HI).
 const LANG_MS = 5000
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
- * Homepage hero: full-bleed office photo with a slow zoom, a navy fade for
- * legibility, floating glass cards and a light pointer parallax.
+ * Homepage hero: full-bleed technology scene with a slow zoom, a navy fade for
+ * legibility, animated light over the scene (pulsing glows, data packets
+ * running along its circuit lines, sparks), floating glass cards and a light
+ * pointer parallax.
  */
 export function Hero() {
   const ref = useRef<HTMLElement>(null)
@@ -46,7 +59,12 @@ export function Hero() {
   return (
     <section ref={ref} className="hero-photo dark" onPointerMove={onMove} onPointerLeave={onLeave}>
       <div className="hero-media" aria-hidden="true">
-        <img src={mediaUrl('hero-office.jpg')} alt="" fetchPriority="high" />
+        <img src={mediaUrl('background.jpg')} alt="" fetchPriority="high" />
+      </div>
+      <div className="hero-fx" aria-hidden="true">
+        <span className="fx-glow g1" /><span className="fx-glow g2" /><span className="fx-glow g3" />
+        {packets.map((s, i) => <i key={i} className="fx-packet" style={s} />)}
+        {sparks.map((s, i) => <b key={i} className="fx-spark" style={s} />)}
       </div>
       <div className="hero-shade" aria-hidden="true" />
       <div className="hero-sweep" aria-hidden="true" />
